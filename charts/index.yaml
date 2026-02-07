@@ -1,0 +1,174 @@
+apiVersion: v1
+entries:
+  dapr:
+  - apiVersion: v2
+    appVersion: 1.16.8
+    created: "2026-02-07T21:02:17.527115467Z"
+    dependencies:
+    - name: dapr_rbac
+      repository: file://dapr_rbac
+      version: 1.16.8
+    - name: dapr_operator
+      repository: file://dapr_operator
+      version: 1.16.8
+    - name: dapr_placement
+      repository: file://dapr_placement
+      version: 1.16.8
+    - name: dapr_sidecar_injector
+      repository: file://dapr_sidecar_injector
+      version: 1.16.8
+    - name: dapr_sentry
+      repository: file://dapr_sentry
+      version: 1.16.8
+    - name: dapr_scheduler
+      repository: file://dapr_scheduler
+      version: 1.16.8
+    - name: dapr_config
+      repository: file://dapr_config
+      version: 1.16.8
+    description: A Helm chart for Dapr on Kubernetes
+    digest: 143d414dedcde4c46b0c49352703115e5a78006202f1776a41d8efec1950b92f
+    icon: https://dapr.io/images/dapr.svg
+    name: dapr
+    urls:
+    - https://RyazanovAlexander.github.io/mathtrail-charts/charts/dapr-1.16.8.tgz
+    version: 1.16.8
+  kafka:
+  - annotations:
+      category: Infrastructure
+      images: |
+        - name: jmx-exporter
+          image: docker.io/bitnami/jmx-exporter:1.4.0-debian-12-r0
+        - name: kafka
+          image: docker.io/bitnami/kafka:4.0.0-debian-12-r10
+        - name: kubectl
+          image: docker.io/bitnami/kubectl:1.33.4-debian-12-r0
+        - name: os-shell
+          image: docker.io/bitnami/os-shell:12-debian-12-r51
+      licenses: Apache-2.0
+      tanzuCategory: service
+    apiVersion: v2
+    appVersion: 4.0.0
+    created: "2026-02-07T21:02:17.553340202Z"
+    dependencies:
+    - name: common
+      repository: oci://registry-1.docker.io/bitnamicharts
+      tags:
+      - bitnami-common
+      version: 2.x.x
+    description: Apache Kafka is a distributed streaming platform designed to build
+      real-time pipelines and can be used as a message broker or as a replacement
+      for a log aggregation solution for big data applications.
+    digest: fe39cc71f350929c35561b30c1c7f3e16019de69edab9b82d656d0aca7667a64
+    home: https://bitnami.com
+    icon: https://dyltqmyl993wv.cloudfront.net/assets/stacks/kafka/img/kafka-stack-220x234.png
+    keywords:
+    - kafka
+    - streaming
+    - producer
+    - consumer
+    maintainers:
+    - name: Broadcom, Inc. All Rights Reserved.
+      url: https://github.com/bitnami/charts
+    name: kafka
+    sources:
+    - https://github.com/bitnami/charts/tree/main/bitnami/kafka
+    urls:
+    - https://RyazanovAlexander.github.io/mathtrail-charts/charts/kafka-32.4.3.tgz
+    version: 32.4.3
+  postgresql:
+  - annotations:
+      fips: "true"
+      images: |
+        - name: os-shell
+          version: "5"
+          image: registry-1.docker.io/bitnami/os-shell:latest
+        - name: postgres-exporter
+          version: 0.18.1
+          image: registry-1.docker.io/bitnami/postgres-exporter:latest
+        - name: postgresql
+          version: 18.1.0
+          image: registry-1.docker.io/bitnami/postgresql:latest
+      licenses: Apache-2.0
+      tanzuCategory: service
+    apiVersion: v2
+    appVersion: 18.1.0
+    created: "2026-02-07T21:02:17.575962254Z"
+    dependencies:
+    - name: common
+      repository: oci://registry-1.docker.io/bitnamicharts
+      tags:
+      - bitnami-common
+      version: 2.34.0
+    description: PostgreSQL (Postgres) is an open source object-relational database
+      known for reliability and data integrity. ACID-compliant, it supports foreign
+      keys, joins, views, triggers and stored procedures.
+    digest: bf7b4c08d8e31f3f9e53f103d4f354425d4c7a5b968677af209bbca88d5a16bf
+    home: https://bitnami.com
+    icon: https://dyltqmyl993wv.cloudfront.net/assets/stacks/postgresql/img/postgresql-stack-220x234.png
+    keywords:
+    - postgresql
+    - postgres
+    - database
+    - sql
+    - replication
+    - cluster
+    maintainers:
+    - name: Broadcom, Inc. All Rights Reserved.
+      url: https://github.com/bitnami/charts
+    name: postgresql
+    sources:
+    - https://github.com/bitnami/charts/tree/main/bitnami/postgresql
+    urls:
+    - https://RyazanovAlexander.github.io/mathtrail-charts/charts/postgresql-18.2.4.tgz
+    version: 18.2.4
+  redis:
+  - annotations:
+      fips: "true"
+      images: |
+        - name: kubectl
+          version: 1.35.0
+          image: registry-1.docker.io/bitnami/kubectl:latest
+        - name: os-shell
+          version: "5"
+          image: registry-1.docker.io/bitnami/os-shell:latest
+        - name: redis
+          version: 8.4.0
+          image: registry-1.docker.io/bitnami/redis:latest
+        - name: redis-exporter
+          version: 1.80.2
+          image: registry-1.docker.io/bitnami/redis-exporter:latest
+        - name: redis-sentinel
+          version: 8.4.0
+          image: registry-1.docker.io/bitnami/redis-sentinel:latest
+      licenses: Apache-2.0
+      tanzuCategory: service
+    apiVersion: v2
+    appVersion: 8.4.0
+    created: "2026-02-07T21:02:17.607276644Z"
+    dependencies:
+    - name: common
+      repository: oci://registry-1.docker.io/bitnamicharts
+      tags:
+      - bitnami-common
+      version: 2.34.0
+    description: Redis(R) is an open source, advanced key-value store. It is often
+      referred to as a data structure server since keys can contain strings, hashes,
+      lists, sets and sorted sets.
+    digest: 50673893ab5f558dcae05184594627313aae23063b86eec68a8c3615b4bf2c34
+    home: https://bitnami.com
+    icon: https://dyltqmyl993wv.cloudfront.net/assets/stacks/redis/img/redis-stack-220x234.png
+    keywords:
+    - redis
+    - keyvalue
+    - database
+    maintainers:
+    - name: Broadcom, Inc. All Rights Reserved.
+      url: https://github.com/bitnami/charts
+    name: redis
+    sources:
+    - https://github.com/bitnami/charts/tree/main/bitnami/redis
+    urls:
+    - https://RyazanovAlexander.github.io/mathtrail-charts/charts/redis-24.1.3.tgz
+    version: 24.1.3
+generated: "2026-02-07T21:02:17.512926113Z"

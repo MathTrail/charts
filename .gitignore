@@ -1,0 +1,19 @@
+# Git ignore rules for mathtrail-charts
+
+# Helm temporary files
+*.lock
+
+# OS files
+.DS_Store
+Thumbs.db````
+
+# IDE files
+.vscode/``
+.idea/
+*.swp
+*.swo
+*~
+
+# Helm cache
+/tmp/
+/Chart.lock
