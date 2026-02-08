@@ -44,7 +44,6 @@ templates/
   _rbac.tpl           # Role + RoleBinding for migration wait
   _configmap.tpl      # ConfigMap for environment variables
   _hpa.tpl            # HorizontalPodAutoscaler
-  _ingress.tpl        # Ingress (optional)
 ```
 
 ## Validation via `fail()`
@@ -88,8 +87,6 @@ dependencies:
 {{ include "mathtrail-service-lib.service" . }}
 ---
 {{ include "mathtrail-service-lib.hpa" . }}
----
-{{ include "mathtrail-service-lib.ingress" . }}
 ```
 
 ### 3. values.yaml (minimal)
@@ -126,7 +123,6 @@ resources:
 | `mathtrail-service-lib.migrationJob` | Pre-install/pre-upgrade Job for DB migrations |
 | `mathtrail-service-lib.configMap` | ConfigMap from `configMap.data` |
 | `mathtrail-service-lib.hpa` | HorizontalPodAutoscaler |
-| `mathtrail-service-lib.ingress` | Ingress |
 
 ## Planned Additions
 

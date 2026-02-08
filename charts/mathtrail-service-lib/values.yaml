@@ -34,16 +34,16 @@ podLabels: {}
 # -- Pod Security Context (pod-level)
 podSecurityContext:
   runAsNonRoot: true
-  # fsGroup: 1000
-  # runAsUser: 1000
-  # runAsGroup: 1000
+  fsGroup: null
+  runAsUser: null
+  runAsGroup: null
 
 # -- Container Security Context
 securityContext:
   allowPrivilegeEscalation: false
   readOnlyRootFilesystem: true
   runAsNonRoot: true
-  # runAsUser: 1000
+  runAsUser: null
 
 # -- Service
 service:
@@ -148,25 +148,10 @@ tolerations: []
 volumes: []
 volumeMounts: []
 
-# -- Ingress (optional)
-ingress:
-  enabled: false
-  className: ""
-  annotations: {}
-  hosts: []
-    # - host: my-service.example.com
-    #   paths:
-    #     - path: /
-    #       pathType: Prefix
-  tls: []
-    # - secretName: my-service-tls
-    #   hosts:
-    #     - my-service.example.com
-
 # -- HPA / Autoscaling
 autoscaling:
   enabled: false
   minReplicas: 1
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80
-  # targetMemoryUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 0
