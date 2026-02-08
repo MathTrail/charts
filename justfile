@@ -13,7 +13,8 @@ update:
     helm repo add bitnami https://charts.bitnami.com/bitnami 2>/dev/null || true
     helm repo add dapr https://dapr.github.io/helm-charts 2>/dev/null || true
     helm repo add strimzi https://strimzi.io/charts/ 2>/dev/null || true
-    helm repo update bitnami dapr strimzi
+    helm repo add grafana https://grafana.github.io/helm-charts 2>/dev/null || true
+    helm repo update bitnami dapr strimzi grafana
     
     mkdir -p ./charts
     
@@ -28,6 +29,9 @@ update:
     
     echo "📥 Pulling Dapr chart..."
     helm pull dapr/dapr --destination ./charts
+    
+    echo "📥 Pulling k6 Operator chart..."
+    helm pull grafana/k6-operator --destination ./charts
     
     echo "📦 Generating Helm repo index..."
     helm repo index ./charts --url {{ repo_url }}/charts
