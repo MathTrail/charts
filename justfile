@@ -8,30 +8,30 @@ repo_url := "https://RyazanovAlexander.github.io/mathtrail-charts"
 update:
     #!/bin/bash
     set -e
-    
+
     echo "📦 Updating Helm repositories..."
     helm repo add bitnami https://charts.bitnami.com/bitnami 2>/dev/null || true
     helm repo add dapr https://dapr.github.io/helm-charts 2>/dev/null || true
     helm repo add strimzi https://strimzi.io/charts/ 2>/dev/null || true
     helm repo add grafana https://grafana.github.io/helm-charts 2>/dev/null || true
-    helm repo update bitnami dapr strimzi grafana
-    
+    # Добавляем OTel репозиторий (был пропущен)
+    helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts 2>/dev/null || true
+
+    helm repo update
+
     mkdir -p ./charts
-    
-    echo "📥 Pulling PostgreSQL chart..."
+
+    echo "📥 Pulling Infrastructure charts..."
     helm pull bitnami/postgresql --destination ./charts
-    
-    echo "📥 Pulling Redis chart..."
     helm pull bitnami/redis --destination ./charts
-    
-    echo "📥 Pulling Strimzi Kafka Operator chart..."
     helm pull strimzi/strimzi-kafka-operator --destination ./charts
-    
-    echo "📥 Pulling Dapr chart..."
     helm pull dapr/dapr --destination ./charts
-    
-    echo "📥 Pulling k6 Operator chart..."
+
+    echo "📥 Pulling Observability (LGTM + OTel) charts..."
     helm pull grafana/k6-operator --destination ./charts
+    helm pull grafana/k8s-monitoring --destination ./charts
+    helm pull open-telemetry/opentelemetry-collector --destination ./charts
+    helm pull grafana/pyroscope --destination ./charts
     
     echo "📦 Packaging mathtrail-service-lib library chart..."
     helm package ./charts/mathtrail-service-lib --destination ./charts
