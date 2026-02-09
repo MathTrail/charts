@@ -3,7 +3,7 @@ entries:
   dapr:
   - apiVersion: v2
     appVersion: 1.16.8
-    created: "2026-02-09T02:08:56.477656231Z"
+    created: "2026-02-09T03:01:38.716790067Z"
     dependencies:
     - name: dapr_rbac
       repository: file://dapr_rbac
@@ -36,7 +36,7 @@ entries:
   k6-operator:
   - apiVersion: v1
     appVersion: 1.2.0
-    created: "2026-02-09T02:08:56.487814797Z"
+    created: "2026-02-09T03:01:38.729728329Z"
     description: A Helm chart to install the k6-operator
     digest: 59092761e2fdd26c4069a87b3953b1963be5a6d369b91d09a0f092e37b22be17
     home: https://k6.io
@@ -61,7 +61,7 @@ entries:
   k8s-monitoring:
   - apiVersion: v2
     appVersion: 3.8.0
-    created: "2026-02-09T02:08:56.601604182Z"
+    created: "2026-02-09T03:01:38.841751398Z"
     dependencies:
     - alias: annotationAutodiscovery
       condition: annotationAutodiscovery.enabled
@@ -148,10 +148,10 @@ entries:
     version: 3.8.0
   mathtrail-service-lib:
   - apiVersion: v2
-    created: "2026-02-09T02:08:56.610229405Z"
+    created: "2026-02-09T03:01:38.849971013Z"
     description: 'Library Helm Chart for MathTrail microservices. Provides reusable
       templates. '
-    digest: c62cb5f3f8977f1fbec4233fffafecf656d30e802696e30010160ae4b240936c
+    digest: 9d9a181fb45905eef679ef2d9783f3b31f0daee3fc44d6da537a4a1ab0e3aec6
     name: mathtrail-service-lib
     type: library
     urls:
@@ -160,7 +160,7 @@ entries:
   opentelemetry-collector:
   - apiVersion: v2
     appVersion: 0.145.0
-    created: "2026-02-09T02:08:56.621927326Z"
+    created: "2026-02-09T03:01:38.862061039Z"
     description: OpenTelemetry Collector Helm chart for Kubernetes
     digest: 6fcc59ac0d48edf35122994a707929c97ad8c26baf4161b3ac5460adf163bac8
     home: https://opentelemetry.io/
@@ -194,7 +194,7 @@ entries:
       tanzuCategory: service
     apiVersion: v2
     appVersion: 18.1.0
-    created: "2026-02-09T02:08:56.640700473Z"
+    created: "2026-02-09T03:01:38.884719197Z"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -226,7 +226,7 @@ entries:
   pyroscope:
   - apiVersion: v2
     appVersion: 1.18.0
-    created: "2026-02-09T02:08:56.668778909Z"
+    created: "2026-02-09T03:01:38.918228354Z"
     dependencies:
     - alias: agent
       condition: agent.enabled
@@ -278,7 +278,7 @@ entries:
       tanzuCategory: service
     apiVersion: v2
     appVersion: 8.4.1
-    created: "2026-02-09T02:08:56.69480197Z"
+    created: "2026-02-09T03:01:38.946693372Z"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -307,7 +307,7 @@ entries:
   strimzi-kafka-operator:
   - apiVersion: v2
     appVersion: 0.50.0
-    created: "2026-02-09T02:08:56.720233059Z"
+    created: "2026-02-09T03:01:38.980279822Z"
     description: 'Strimzi: Apache Kafka running on Kubernetes'
     digest: 3dff5a4947584f4d124a701f28df180f7dd6a8bf4c963f7f375fdb28527059af
     home: https://strimzi.io/
@@ -330,4 +330,21 @@ entries:
     urls:
     - https://RyazanovAlexander.github.io/mathtrail-charts/charts/strimzi-kafka-operator-helm-3-chart-0.50.0.tgz
     version: 0.50.0
-generated: "2026-02-09T02:08:56.464334547Z"
+  telepresence:
+  - apiVersion: v2
+    appVersion: 2.20.2
+    created: "2026-02-09T03:01:38.991018139Z"
+    dependencies:
+    - condition: ambassador-agent.enabled
+      name: ambassador-agent
+      repository: https://app.getambassador.io/
+      version: ~1.0.0
+    description: A chart for deploying the server-side components of Telepresence
+    digest: 6a4f8ebbc10948425c751c865112b26f07302f64e3483f0b375602e07c273cef
+    icon: https://www.getambassador.io/images/logo.png
+    name: telepresence
+    type: application
+    urls:
+    - https://RyazanovAlexander.github.io/mathtrail-charts/charts/telepresence-2.20.2.tgz
+    version: 2.20.2
+generated: "2026-02-09T03:01:38.699531135Z"
