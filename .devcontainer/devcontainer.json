@@ -22,7 +22,8 @@
         "redhat.vscode-yaml",
         "tim-koehler.helm-intellisense",
         "eamodio.gitlens",
-        "sclu1034.justfile"
+        "sclu1034.justfile",
+        "anthropic.claude-code"
       ],
       "settings": {
         "yaml.schemas": {

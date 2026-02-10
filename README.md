@@ -6,7 +6,7 @@ A Helm chart repository for the MathTrail project, served via GitHub Pages. Char
 
 ### mathtrail-service-lib (Library Chart)
 
-Library Helm Chart for MathTrail microservices. Provides reusable templates (Deployment, Service, Migration Job, RBAC, HPA, Ingress, etc.) with Dapr integration, mandatory probes, resource limits, and a security contract. See [charts/mathtrail-service-lib/README.md](charts/mathtrail-service-lib/README.md) for details.
+Library Helm Chart for MathTrail microservices. Provides reusable templates with Dapr integration, mandatory probes, resource limits, and a security contract. See [charts/mathtrail-service-lib/README.md](charts/mathtrail-service-lib/README.md) for details.
 
 ## Download/Update Charts
 

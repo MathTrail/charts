@@ -1,9 +1,47 @@
 apiVersion: v1
 entries:
+  chaos-mesh:
+  - annotations:
+      artifacthub.io/containsSecurityUpdates: "false"
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/operator: "true"
+      artifacthub.io/operatorCapabilities: Seamless Upgrades
+      artifacthub.io/prerelease: "false"
+    apiVersion: v2
+    appVersion: 2.8.1
+    created: "2026-02-10T16:37:02.248620846Z"
+    description: Chaos Mesh is a cloud-native Chaos Engineering platform that orchestrates
+      chaos on Kubernetes environments.
+    digest: 27d3411c18c15eb55e40b4c5255a06d7a6f8d97b722f58faae0255fe5c894f4b
+    home: https://chaos-mesh.org
+    icon: https://raw.githubusercontent.com/chaos-mesh/chaos-mesh/master/static/logo.svg
+    keywords:
+    - chaos-engineering
+    - resiliency
+    - fault-injection
+    - kubernetes
+    - testing
+    maintainers:
+    - email: cwen@pingcap.com
+      name: cwen0
+    - email: yangkeao@chunibyo.icu
+      name: YangKeao
+    - email: wenghao@pingcap.com
+      name: dcalvin
+    - email: yb532204897@gmail.com
+      name: yeya24
+    - email: tttick@gmail.com
+      name: Gallardot
+    name: chaos-mesh
+    sources:
+    - https://github.com/chaos-mesh/chaos-mesh
+    urls:
+    - https://RyazanovAlexander.github.io/mathtrail-charts/charts/chaos-mesh-2.8.1.tgz
+    version: 2.8.1
   dapr:
   - apiVersion: v2
     appVersion: 1.16.8
-    created: "2026-02-09T03:01:38.716790067Z"
+    created: "2026-02-10T16:37:02.261919589Z"
     dependencies:
     - name: dapr_rbac
       repository: file://dapr_rbac
@@ -36,7 +74,7 @@ entries:
   k6-operator:
   - apiVersion: v1
     appVersion: 1.2.0
-    created: "2026-02-09T03:01:38.729728329Z"
+    created: "2026-02-10T16:37:02.273506698Z"
     description: A Helm chart to install the k6-operator
     digest: 59092761e2fdd26c4069a87b3953b1963be5a6d369b91d09a0f092e37b22be17
     home: https://k6.io
@@ -61,7 +99,7 @@ entries:
   k8s-monitoring:
   - apiVersion: v2
     appVersion: 3.8.0
-    created: "2026-02-09T03:01:38.841751398Z"
+    created: "2026-02-10T16:37:02.389304175Z"
     dependencies:
     - alias: annotationAutodiscovery
       condition: annotationAutodiscovery.enabled
@@ -148,10 +186,10 @@ entries:
     version: 3.8.0
   mathtrail-service-lib:
   - apiVersion: v2
-    created: "2026-02-09T03:01:38.849971013Z"
+    created: "2026-02-10T16:37:02.400762841Z"
     description: 'Library Helm Chart for MathTrail microservices. Provides reusable
       templates. '
-    digest: 9d9a181fb45905eef679ef2d9783f3b31f0daee3fc44d6da537a4a1ab0e3aec6
+    digest: 724ab1d63781f217df02b737c7101603057580b4439bbd2bd4fe1c033f2a90f1
     name: mathtrail-service-lib
     type: library
     urls:
@@ -160,7 +198,7 @@ entries:
   opentelemetry-collector:
   - apiVersion: v2
     appVersion: 0.145.0
-    created: "2026-02-09T03:01:38.862061039Z"
+    created: "2026-02-10T16:37:02.412652036Z"
     description: OpenTelemetry Collector Helm chart for Kubernetes
     digest: 6fcc59ac0d48edf35122994a707929c97ad8c26baf4161b3ac5460adf163bac8
     home: https://opentelemetry.io/
@@ -185,6 +223,51 @@ entries:
           version: "5"
           image: registry-1.docker.io/bitnami/os-shell:latest
         - name: postgres-exporter
+          version: 0.19.0
+          image: registry-1.docker.io/bitnami/postgres-exporter:latest
+        - name: postgresql
+          version: 18.1.0
+          image: registry-1.docker.io/bitnami/postgresql:latest
+      licenses: Apache-2.0
+      tanzuCategory: service
+    apiVersion: v2
+    appVersion: 18.1.0
+    created: "2026-02-10T16:37:02.455955351Z"
+    dependencies:
+    - name: common
+      repository: oci://registry-1.docker.io/bitnamicharts
+      tags:
+      - bitnami-common
+      version: 2.36.0
+    description: PostgreSQL (Postgres) is an open source object-relational database
+      known for reliability and data integrity. ACID-compliant, it supports foreign
+      keys, joins, views, triggers and stored procedures.
+    digest: edc93add5c259f28c0c19ec471c430a68bd9703ca7bf2f13286666dcacbc732b
+    home: https://bitnami.com
+    icon: https://dyltqmyl993wv.cloudfront.net/assets/stacks/postgresql/img/postgresql-stack-220x234.png
+    keywords:
+    - postgresql
+    - postgres
+    - database
+    - sql
+    - replication
+    - cluster
+    maintainers:
+    - name: Broadcom, Inc. All Rights Reserved.
+      url: https://github.com/bitnami/charts
+    name: postgresql
+    sources:
+    - https://github.com/bitnami/charts/tree/main/bitnami/postgresql
+    urls:
+    - https://RyazanovAlexander.github.io/mathtrail-charts/charts/postgresql-18.2.6.tgz
+    version: 18.2.6
+  - annotations:
+      fips: "true"
+      images: |
+        - name: os-shell
+          version: "5"
+          image: registry-1.docker.io/bitnami/os-shell:latest
+        - name: postgres-exporter
           version: 0.18.1
           image: registry-1.docker.io/bitnami/postgres-exporter:latest
         - name: postgresql
@@ -194,7 +277,7 @@ entries:
       tanzuCategory: service
     apiVersion: v2
     appVersion: 18.1.0
-    created: "2026-02-09T03:01:38.884719197Z"
+    created: "2026-02-10T16:37:02.434528657Z"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -226,7 +309,7 @@ entries:
   pyroscope:
   - apiVersion: v2
     appVersion: 1.18.0
-    created: "2026-02-09T03:01:38.918228354Z"
+    created: "2026-02-10T16:37:02.48592593Z"
     dependencies:
     - alias: agent
       condition: agent.enabled
@@ -278,7 +361,55 @@ entries:
       tanzuCategory: service
     apiVersion: v2
     appVersion: 8.4.1
-    created: "2026-02-09T03:01:38.946693372Z"
+    created: "2026-02-10T16:37:02.535671813Z"
+    dependencies:
+    - name: common
+      repository: oci://registry-1.docker.io/bitnamicharts
+      tags:
+      - bitnami-common
+      version: 2.36.0
+    description: Redis(R) is an open source, advanced key-value store. It is often
+      referred to as a data structure server since keys can contain strings, hashes,
+      lists, sets and sorted sets.
+    digest: 6e3ca55e761c1e4c45c998220e68ab73607bc7678a4b3affbc78b5fc4ed0a4c6
+    home: https://bitnami.com
+    icon: https://dyltqmyl993wv.cloudfront.net/assets/stacks/redis/img/redis-stack-220x234.png
+    keywords:
+    - redis
+    - keyvalue
+    - database
+    maintainers:
+    - name: Broadcom, Inc. All Rights Reserved.
+      url: https://github.com/bitnami/charts
+    name: redis
+    sources:
+    - https://github.com/bitnami/charts/tree/main/bitnami/redis
+    urls:
+    - https://RyazanovAlexander.github.io/mathtrail-charts/charts/redis-24.1.8.tgz
+    version: 24.1.8
+  - annotations:
+      fips: "true"
+      images: |
+        - name: kubectl
+          version: 1.35.0
+          image: registry-1.docker.io/bitnami/kubectl:latest
+        - name: os-shell
+          version: "5"
+          image: registry-1.docker.io/bitnami/os-shell:latest
+        - name: redis
+          version: 8.4.1
+          image: registry-1.docker.io/bitnami/redis:latest
+        - name: redis-exporter
+          version: 1.80.2
+          image: registry-1.docker.io/bitnami/redis-exporter:latest
+        - name: redis-sentinel
+          version: 8.4.1
+          image: registry-1.docker.io/bitnami/redis-sentinel:latest
+      licenses: Apache-2.0
+      tanzuCategory: service
+    apiVersion: v2
+    appVersion: 8.4.1
+    created: "2026-02-10T16:37:02.512425653Z"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -307,7 +438,7 @@ entries:
   strimzi-kafka-operator:
   - apiVersion: v2
     appVersion: 0.50.0
-    created: "2026-02-09T03:01:38.980279822Z"
+    created: "2026-02-10T16:37:02.566350449Z"
     description: 'Strimzi: Apache Kafka running on Kubernetes'
     digest: 3dff5a4947584f4d124a701f28df180f7dd6a8bf4c963f7f375fdb28527059af
     home: https://strimzi.io/
@@ -333,7 +464,7 @@ entries:
   telepresence:
   - apiVersion: v2
     appVersion: 2.20.2
-    created: "2026-02-09T03:01:38.991018139Z"
+    created: "2026-02-10T16:37:02.576692213Z"
     dependencies:
     - condition: ambassador-agent.enabled
       name: ambassador-agent
@@ -347,4 +478,4 @@ entries:
     urls:
     - https://RyazanovAlexander.github.io/mathtrail-charts/charts/telepresence-2.20.2.tgz
     version: 2.20.2
-generated: "2026-02-09T03:01:38.699531135Z"
+generated: "2026-02-10T16:37:02.190987876Z"

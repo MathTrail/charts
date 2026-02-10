@@ -16,6 +16,7 @@ update:
     helm repo add grafana https://grafana.github.io/helm-charts 2>/dev/null || true
     helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts 2>/dev/null || true
     helm repo add datawire https://app.getambassador.io 2>/dev/null || true
+    helm repo add chaos-mesh https://charts.chaos-mesh.org 2>/dev/null || true
 
     helm repo update
 
@@ -32,6 +33,9 @@ update:
     helm pull grafana/k8s-monitoring --destination ./charts
     helm pull open-telemetry/opentelemetry-collector --destination ./charts
     helm pull grafana/pyroscope --destination ./charts
+
+    echo "📥 Pulling Chaos Engineering..."
+    helm pull chaos-mesh/chaos-mesh --destination ./charts
 
     echo "📥 Pulling Development Tools..."
     helm pull datawire/telepresence --destination ./charts
