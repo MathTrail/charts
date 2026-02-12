@@ -6,7 +6,8 @@
 */}}
 
 {{- define "mathtrail-service-lib.hpa" -}}
-{{- if (dig "autoscaling" "enabled" false .Values) }}
+{{- $v := include "mathtrail-service-lib.mergedValues" . | fromYaml }}
+{{- if $v.autoscaling.enabled }}
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
@@ -18,24 +19,24 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: {{ include "mathtrail-service-lib.fullname" . }}
-  minReplicas: {{ dig "autoscaling" "minReplicas" 1 .Values }}
-  maxReplicas: {{ dig "autoscaling" "maxReplicas" 10 .Values }}
+  minReplicas: {{ $v.autoscaling.minReplicas }}
+  maxReplicas: {{ $v.autoscaling.maxReplicas }}
   metrics:
-    {{- if (dig "autoscaling" "targetCPUUtilizationPercentage" nil .Values) }}
+    {{- if $v.autoscaling.targetCPUUtilizationPercentage }}
     - type: Resource
       resource:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: {{ dig "autoscaling" "targetCPUUtilizationPercentage" 80 .Values }}
+          averageUtilization: {{ $v.autoscaling.targetCPUUtilizationPercentage }}
     {{- end }}
-    {{- if (dig "autoscaling" "targetMemoryUtilizationPercentage" nil .Values) }}
+    {{- if $v.autoscaling.targetMemoryUtilizationPercentage }}
     - type: Resource
       resource:
         name: memory
         target:
           type: Utilization
-          averageUtilization: {{ dig "autoscaling" "targetMemoryUtilizationPercentage" 80 .Values }}
+          averageUtilization: {{ $v.autoscaling.targetMemoryUtilizationPercentage }}
     {{- end }}
 {{- end }}
 {{- end -}}

@@ -13,6 +13,7 @@
 
 {{- define "mathtrail-service-lib.deployment" -}}
 {{ include "mathtrail-service-lib.validateImage" . }}
+{{- $v := include "mathtrail-service-lib.mergedValues" . | fromYaml }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -20,8 +21,8 @@ metadata:
   labels:
     {{- include "mathtrail-service-lib.labels" . | nindent 4 }}
 spec:
-  {{- if not (dig "autoscaling" "enabled" false .Values) }}
-  replicas: {{ .Values.replicaCount | default 1 }}
+  {{- if not $v.autoscaling.enabled }}
+  replicas: {{ $v.replicaCount }}
   {{- end }}
   strategy:
     type: RollingUpdate
@@ -49,28 +50,28 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       serviceAccountName: {{ include "mathtrail-service-lib.serviceAccountName" . }}
-      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds | default 30 }}
+      terminationGracePeriodSeconds: {{ $v.terminationGracePeriodSeconds }}
       securityContext:
-        runAsNonRoot: {{ dig "podSecurityContext" "runAsNonRoot" true .Values }}
-        {{- with (dig "podSecurityContext" "fsGroup" nil .Values) }}
+        runAsNonRoot: {{ $v.podSecurityContext.runAsNonRoot }}
+        {{- with $v.podSecurityContext.fsGroup }}
         fsGroup: {{ . }}
         {{- end }}
-        {{- with (dig "podSecurityContext" "runAsUser" nil .Values) }}
+        {{- with $v.podSecurityContext.runAsUser }}
         runAsUser: {{ . }}
         {{- end }}
-        {{- with (dig "podSecurityContext" "runAsGroup" nil .Values) }}
+        {{- with $v.podSecurityContext.runAsGroup }}
         runAsGroup: {{ . }}
         {{- end }}
 
       {{/* Init container: wait for migration completion */}}
-      {{- if (dig "migration" "enabled" false .Values) }}
+      {{- if $v.migration.enabled }}
       initContainers:
         - name: wait-for-migration
-          image: {{ dig "migration" "waitImage" "bitnami/kubectl:latest" .Values }}
+          image: {{ $v.migration.waitImage }}
           command:
             - "/bin/sh"
             - "-c"
-            - "kubectl wait --for=condition=complete job/{{ include "mathtrail-service-lib.fullname" . }}-migrate --timeout={{ dig "migration" "waitTimeout" "120s" .Values }}"
+            - "kubectl wait --for=condition=complete job/{{ include "mathtrail-service-lib.fullname" . }}-migrate --timeout={{ $v.migration.waitTimeout }}"
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -86,56 +87,51 @@ spec:
 
       containers:
         - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ dig "image" "pullPolicy" "IfNotPresent" .Values }}
+          image: "{{ $v.image.repository }}:{{ $v.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ $v.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ dig "service" "port" 8080 .Values }}
+              containerPort: {{ $v.service.port }}
               protocol: TCP
 
           {{/* ---- Probe contract ---- */}}
           startupProbe:
             httpGet:
-              path: {{ dig "probes" "startup" "path" "/health/startup" .Values }}
+              path: {{ $v.probes.startup.path }}
               port: http
-            initialDelaySeconds: {{ dig "probes" "startup" "initialDelaySeconds" 0 .Values }}
-            periodSeconds: {{ dig "probes" "startup" "periodSeconds" 5 .Values }}
-            failureThreshold: {{ dig "probes" "startup" "failureThreshold" 30 .Values }}
-            timeoutSeconds: {{ dig "probes" "startup" "timeoutSeconds" 3 .Values }}
+            initialDelaySeconds: {{ $v.probes.startup.initialDelaySeconds }}
+            periodSeconds: {{ $v.probes.startup.periodSeconds }}
+            failureThreshold: {{ $v.probes.startup.failureThreshold }}
+            timeoutSeconds: {{ $v.probes.startup.timeoutSeconds }}
 
           livenessProbe:
             httpGet:
-              path: {{ dig "probes" "liveness" "path" "/health/liveness" .Values }}
+              path: {{ $v.probes.liveness.path }}
               port: http
-            initialDelaySeconds: {{ dig "probes" "liveness" "initialDelaySeconds" 0 .Values }}
-            periodSeconds: {{ dig "probes" "liveness" "periodSeconds" 10 .Values }}
-            failureThreshold: {{ dig "probes" "liveness" "failureThreshold" 3 .Values }}
-            timeoutSeconds: {{ dig "probes" "liveness" "timeoutSeconds" 3 .Values }}
+            initialDelaySeconds: {{ $v.probes.liveness.initialDelaySeconds }}
+            periodSeconds: {{ $v.probes.liveness.periodSeconds }}
+            failureThreshold: {{ $v.probes.liveness.failureThreshold }}
+            timeoutSeconds: {{ $v.probes.liveness.timeoutSeconds }}
 
           readinessProbe:
             httpGet:
-              path: {{ dig "probes" "readiness" "path" "/health/ready" .Values }}
+              path: {{ $v.probes.readiness.path }}
               port: http
-            initialDelaySeconds: {{ dig "probes" "readiness" "initialDelaySeconds" 0 .Values }}
-            periodSeconds: {{ dig "probes" "readiness" "periodSeconds" 10 .Values }}
-            failureThreshold: {{ dig "probes" "readiness" "failureThreshold" 3 .Values }}
-            timeoutSeconds: {{ dig "probes" "readiness" "timeoutSeconds" 3 .Values }}
+            initialDelaySeconds: {{ $v.probes.readiness.initialDelaySeconds }}
+            periodSeconds: {{ $v.probes.readiness.periodSeconds }}
+            failureThreshold: {{ $v.probes.readiness.failureThreshold }}
+            timeoutSeconds: {{ $v.probes.readiness.timeoutSeconds }}
 
           {{/* ---- Resources ---- */}}
           resources:
-            requests:
-              cpu: {{ dig "resources" "requests" "cpu" "100m" .Values }}
-              memory: {{ dig "resources" "requests" "memory" "128Mi" .Values }}
-            limits:
-              cpu: {{ dig "resources" "limits" "cpu" "500m" .Values }}
-              memory: {{ dig "resources" "limits" "memory" "512Mi" .Values }}
+            {{- toYaml $v.resources | nindent 12 }}
 
           {{/* ---- Container Security Context ---- */}}
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: {{ dig "securityContext" "readOnlyRootFilesystem" true .Values }}
-            runAsNonRoot: {{ dig "securityContext" "runAsNonRoot" true .Values }}
-            {{- with (dig "securityContext" "runAsUser" nil .Values) }}
+            readOnlyRootFilesystem: {{ $v.securityContext.readOnlyRootFilesystem }}
+            runAsNonRoot: {{ $v.securityContext.runAsNonRoot }}
+            {{- with $v.securityContext.runAsUser }}
             runAsUser: {{ . }}
             {{- end }}
             capabilities:
@@ -162,9 +158,9 @@ spec:
             {{- toYaml . | nindent 12 }}
             {{- end }}
 
-          {{- if or (dig "configMap" "enabled" false .Values) .Values.envFrom }}
+          {{- if or $v.configMap.enabled .Values.envFrom }}
           envFrom:
-            {{- if (dig "configMap" "enabled" false .Values) }}
+            {{- if $v.configMap.enabled }}
             - configMapRef:
                 name: {{ include "mathtrail-service-lib.fullname" . }}-env
             {{- end }}
@@ -180,7 +176,7 @@ spec:
                 command:
                   - "/bin/sh"
                   - "-c"
-                  - "sleep {{ .Values.preStopDelaySec | default 5 }}"
+                  - "sleep {{ $v.preStopDelaySec }}"
 
           {{- with .Values.volumeMounts }}
           volumeMounts:
@@ -193,9 +189,9 @@ spec:
       {{- end }}
 
       {{/* ---- Affinity & Anti-Affinity ---- */}}
-      {{- if or .Values.affinity (dig "defaultAntiAffinity" "enabled" true .Values) }}
+      {{- if or .Values.affinity $v.defaultAntiAffinity.enabled }}
       affinity:
-        {{- if (dig "defaultAntiAffinity" "enabled" true .Values) }}
+        {{- if $v.defaultAntiAffinity.enabled }}
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
             - weight: 100

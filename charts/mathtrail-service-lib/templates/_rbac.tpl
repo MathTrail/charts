@@ -7,7 +7,8 @@
 */}}
 
 {{- define "mathtrail-service-lib.rbac" -}}
-{{- if and (dig "migration" "enabled" false .Values) (dig "serviceAccount" "create" true .Values) }}
+{{- $v := include "mathtrail-service-lib.mergedValues" . | fromYaml }}
+{{- if and $v.migration.enabled $v.serviceAccount.create }}
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:

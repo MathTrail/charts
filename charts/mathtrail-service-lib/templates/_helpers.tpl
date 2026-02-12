@@ -63,10 +63,11 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 Create the name of the service account to use.
 */}}
 {{- define "mathtrail-service-lib.serviceAccountName" -}}
-{{- if (dig "serviceAccount" "create" true .Values) }}
-{{- default (include "mathtrail-service-lib.fullname" .) (dig "serviceAccount" "name" "" .Values) }}
+{{- $v := include "mathtrail-service-lib.mergedValues" . | fromYaml }}
+{{- if $v.serviceAccount.create }}
+{{- default (include "mathtrail-service-lib.fullname" .) $v.serviceAccount.name }}
 {{- else }}
-{{- default "default" (dig "serviceAccount" "name" "" .Values) }}
+{{- default "default" $v.serviceAccount.name }}
 {{- end }}
 {{- end }}
 
@@ -74,14 +75,15 @@ Create the name of the service account to use.
 Dapr annotations — always injected when dapr.enabled is true.
 */}}
 {{- define "mathtrail-service-lib.daprAnnotations" -}}
-{{- if (dig "dapr" "enabled" true .Values) }}
+{{- $v := include "mathtrail-service-lib.mergedValues" . | fromYaml }}
+{{- if $v.dapr.enabled }}
 dapr.io/enabled: "true"
-dapr.io/app-id: {{ dig "dapr" "appId" "" .Values | default (include "mathtrail-service-lib.fullname" .) }}
-dapr.io/app-port: {{ dig "service" "port" 8080 .Values | quote }}
-{{- with (dig "dapr" "appProtocol" "" .Values) }}
+dapr.io/app-id: {{ $v.dapr.appId | default (include "mathtrail-service-lib.fullname" .) }}
+dapr.io/app-port: {{ $v.service.port | quote }}
+{{- with $v.dapr.appProtocol }}
 dapr.io/app-protocol: {{ . | quote }}
 {{- end }}
-{{- with (dig "dapr" "logLevel" "" .Values) }}
+{{- with $v.dapr.logLevel }}
 dapr.io/log-level: {{ . | quote }}
 {{- end }}
 {{- end }}
@@ -91,10 +93,11 @@ dapr.io/log-level: {{ . | quote }}
 Validate image configuration.
 */}}
 {{- define "mathtrail-service-lib.validateImage" -}}
-{{- if not (dig "image" "repository" "" .Values) }}
+{{- $v := include "mathtrail-service-lib.mergedValues" . | fromYaml }}
+{{- if not $v.image.repository }}
 {{- fail "FATAL: .Values.image.repository must be specified." }}
 {{- end }}
-{{- if not (dig "image" "tag" "" .Values) }}
+{{- if not $v.image.tag }}
 {{- if not .Chart.AppVersion }}
 {{- fail "FATAL: Either .Values.image.tag or .Chart.AppVersion must be set." }}
 {{- end }}

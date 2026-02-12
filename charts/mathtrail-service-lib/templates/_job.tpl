@@ -7,7 +7,8 @@
 */}}
 
 {{- define "mathtrail-service-lib.migrationJob" -}}
-{{- if (dig "migration" "enabled" false .Values) }}
+{{- $v := include "mathtrail-service-lib.mergedValues" . | fromYaml }}
+{{- if $v.migration.enabled }}
 {{ include "mathtrail-service-lib.validateImage" . }}
 apiVersion: batch/v1
 kind: Job
@@ -20,8 +21,8 @@ metadata:
     "helm.sh/hook-weight": "5"
     "helm.sh/hook-delete-policy": before-hook-creation
 spec:
-  backoffLimit: {{ dig "migration" "backoffLimit" 3 .Values }}
-  ttlSecondsAfterFinished: {{ dig "migration" "ttlSecondsAfterFinished" 300 .Values }}
+  backoffLimit: {{ $v.migration.backoffLimit }}
+  ttlSecondsAfterFinished: {{ $v.migration.ttlSecondsAfterFinished }}
   template:
     metadata:
       labels:
@@ -33,44 +34,39 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       securityContext:
-        runAsNonRoot: {{ dig "podSecurityContext" "runAsNonRoot" true .Values }}
-        {{- with (dig "podSecurityContext" "fsGroup" nil .Values) }}
+        runAsNonRoot: {{ $v.podSecurityContext.runAsNonRoot }}
+        {{- with $v.podSecurityContext.fsGroup }}
         fsGroup: {{ . }}
         {{- end }}
       containers:
         - name: migrate
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ dig "image" "pullPolicy" "IfNotPresent" .Values }}
+          image: "{{ $v.image.repository }}:{{ $v.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ $v.image.pullPolicy }}
           command:
-            {{- toYaml (dig "migration" "command" (list "./migrate") .Values) | nindent 12 }}
-          {{- with (dig "migration" "args" nil .Values) }}
+            {{- toYaml $v.migration.command | nindent 12 }}
+          {{- with $v.migration.args }}
           args:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           envFrom:
-            {{- if (dig "configMap" "enabled" false .Values) }}
+            {{- if $v.configMap.enabled }}
             - configMapRef:
                 name: {{ include "mathtrail-service-lib.fullname" . }}-env
             {{- end }}
-          {{- with (dig "migration" "env" nil .Values) }}
+          {{- with $v.migration.env }}
           env:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          {{- with (dig "migration" "envFrom" nil .Values) }}
+          {{- with $v.migration.envFrom }}
           envFrom:
             {{- toYaml . | nindent 12 }}
           {{- end }}
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: {{ dig "securityContext" "readOnlyRootFilesystem" true .Values }}
-            runAsNonRoot: {{ dig "securityContext" "runAsNonRoot" true .Values }}
+            readOnlyRootFilesystem: {{ $v.securityContext.readOnlyRootFilesystem }}
+            runAsNonRoot: {{ $v.securityContext.runAsNonRoot }}
           resources:
-            requests:
-              cpu: {{ dig "migration" "resources" "requests" "cpu" "50m" .Values }}
-              memory: {{ dig "migration" "resources" "requests" "memory" "64Mi" .Values }}
-            limits:
-              cpu: {{ dig "migration" "resources" "limits" "cpu" "200m" .Values }}
-              memory: {{ dig "migration" "resources" "limits" "memory" "256Mi" .Values }}
+            {{- toYaml $v.migration.resources | nindent 12 }}
           {{- with .Values.volumeMounts }}
           volumeMounts:
             {{- toYaml . | nindent 12 }}
@@ -79,6 +75,6 @@ spec:
       volumes:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      restartPolicy: {{ dig "migration" "restartPolicy" "OnFailure" .Values }}
+      restartPolicy: {{ $v.migration.restartPolicy }}
 {{- end }}
 {{- end -}}

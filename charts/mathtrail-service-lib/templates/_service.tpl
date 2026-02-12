@@ -6,20 +6,21 @@
 */}}
 
 {{- define "mathtrail-service-lib.service" -}}
+{{- $v := include "mathtrail-service-lib.mergedValues" . | fromYaml }}
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "mathtrail-service-lib.fullname" . }}
   labels:
     {{- include "mathtrail-service-lib.labels" . | nindent 4 }}
-  {{- with (dig "service" "annotations" nil .Values) }}
+  {{- with $v.service.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-  type: {{ dig "service" "type" "ClusterIP" .Values }}
+  type: {{ $v.service.type }}
   ports:
-    - port: {{ dig "service" "port" 8080 .Values }}
+    - port: {{ $v.service.port }}
       targetPort: http
       protocol: TCP
       name: http
