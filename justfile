@@ -22,25 +22,33 @@ update:
 
     mkdir -p ./charts
 
+    # Helper: remove old .tgz for a chart, then pull latest
+    pull_chart() {
+        local name="$1" repo="$2"
+        rm -f ./charts/${name}-*.tgz
+        helm pull "$repo" --destination ./charts
+    }
+
     echo "📥 Pulling Infrastructure charts..."
-    helm pull bitnami/postgresql --destination ./charts
-    helm pull bitnami/redis --destination ./charts
-    helm pull strimzi/strimzi-kafka-operator --destination ./charts
-    helm pull dapr/dapr --destination ./charts
+    pull_chart postgresql bitnami/postgresql
+    pull_chart redis bitnami/redis
+    pull_chart strimzi-kafka-operator strimzi/strimzi-kafka-operator
+    pull_chart dapr dapr/dapr
 
     echo "📥 Pulling Observability (LGTM + OTel) charts..."
-    helm pull grafana/k6-operator --destination ./charts
-    helm pull grafana/k8s-monitoring --destination ./charts
-    helm pull open-telemetry/opentelemetry-collector --destination ./charts
-    helm pull grafana/pyroscope --destination ./charts
+    pull_chart k6-operator grafana/k6-operator
+    pull_chart k8s-monitoring grafana/k8s-monitoring
+    pull_chart opentelemetry-collector open-telemetry/opentelemetry-collector
+    pull_chart pyroscope grafana/pyroscope
 
     echo "📥 Pulling Chaos Engineering..."
-    helm pull chaos-mesh/chaos-mesh --destination ./charts
+    pull_chart chaos-mesh chaos-mesh/chaos-mesh
 
     echo "📥 Pulling Development Tools..."
-    helm pull datawire/telepresence --destination ./charts
+    pull_chart telepresence datawire/telepresence
 
     echo "📦 Packaging mathtrail-service-lib library chart..."
+    rm -f ./charts/mathtrail-service-lib-*.tgz
     helm package ./charts/mathtrail-service-lib --destination ./charts
 
     echo "📦 Generating Helm repo index..."
