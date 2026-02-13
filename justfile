@@ -17,6 +17,7 @@ update:
     helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts 2>/dev/null || true
     helm repo add datawire https://app.getambassador.io 2>/dev/null || true
     helm repo add chaos-mesh https://charts.chaos-mesh.org 2>/dev/null || true
+    helm repo add ory https://k8s.ory.sh/helm/charts 2>/dev/null || true
 
     helm repo update
 
@@ -34,6 +35,12 @@ update:
     pull_chart redis bitnami/redis
     pull_chart strimzi-kafka-operator strimzi/strimzi-kafka-operator
     pull_chart dapr dapr/dapr
+
+    echo "📥 Pulling Identity (Ory) charts..."
+    pull_chart kratos ory/kratos
+    pull_chart hydra ory/hydra
+    pull_chart keto ory/keto
+    pull_chart oathkeeper ory/oathkeeper
 
     echo "📥 Pulling Observability (LGTM + OTel) charts..."
     pull_chart k6-operator grafana/k6-operator
