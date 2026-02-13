@@ -9,7 +9,7 @@ entries:
       artifacthub.io/prerelease: "false"
     apiVersion: v2
     appVersion: 2.8.1
-    created: "2026-02-12T05:23:52.886024605Z"
+    created: "2026-02-13T04:56:04.86528237Z"
     description: Chaos Mesh is a cloud-native Chaos Engineering platform that orchestrates
       chaos on Kubernetes environments.
     digest: 27d3411c18c15eb55e40b4c5255a06d7a6f8d97b722f58faae0255fe5c894f4b
@@ -40,41 +40,79 @@ entries:
     version: 2.8.1
   dapr:
   - apiVersion: v2
-    appVersion: 1.16.8
-    created: "2026-02-12T05:23:52.897992718Z"
+    appVersion: 1.16.9
+    created: "2026-02-13T04:56:04.879059326Z"
     dependencies:
     - name: dapr_rbac
       repository: file://dapr_rbac
-      version: 1.16.8
+      version: 1.16.9
     - name: dapr_operator
       repository: file://dapr_operator
-      version: 1.16.8
+      version: 1.16.9
     - name: dapr_placement
       repository: file://dapr_placement
-      version: 1.16.8
+      version: 1.16.9
     - name: dapr_sidecar_injector
       repository: file://dapr_sidecar_injector
-      version: 1.16.8
+      version: 1.16.9
     - name: dapr_sentry
       repository: file://dapr_sentry
-      version: 1.16.8
+      version: 1.16.9
     - name: dapr_scheduler
       repository: file://dapr_scheduler
-      version: 1.16.8
+      version: 1.16.9
     - name: dapr_config
       repository: file://dapr_config
-      version: 1.16.8
+      version: 1.16.9
     description: A Helm chart for Dapr on Kubernetes
-    digest: 143d414dedcde4c46b0c49352703115e5a78006202f1776a41d8efec1950b92f
+    digest: dd0a5fe4ecfb87b89af2ba832687dce111bfb61497e28b1247bee75e5251593e
     icon: https://dapr.io/images/dapr.svg
     name: dapr
     urls:
-    - https://RyazanovAlexander.github.io/mathtrail-charts/charts/dapr-1.16.8.tgz
-    version: 1.16.8
+    - https://RyazanovAlexander.github.io/mathtrail-charts/charts/dapr-1.16.9.tgz
+    version: 1.16.9
+  hydra:
+  - apiVersion: v2
+    appVersion: v25.4.0
+    created: "2026-02-13T04:56:04.891831665Z"
+    dependencies:
+    - alias: ory
+      name: ory-commons
+      repository: file://../ory-commons
+      version: 0.1.0
+    - alias: hydra-maester
+      condition: maester.enabled
+      name: hydra-maester
+      repository: file://../hydra-maester
+      version: 0.60.1
+    description: A Helm chart for deploying ORY Hydra in Kubernetes
+    digest: 27c6d43c3c35798f7434ff51875e4f538601b3dcf06fff0ad03a53670fc3d294
+    home: https://www.ory.sh/
+    icon: https://raw.githubusercontent.com/ory/docs/master/docs/static/img/logo-hydra.svg
+    keywords:
+    - oauth2
+    - openid-connect
+    - openid
+    - oidc
+    - op
+    - api-security
+    - security
+    maintainers:
+    - email: hi@ory.sh
+      name: ORY Team
+      url: https://www.ory.sh/
+    name: hydra
+    sources:
+    - https://github.com/ory/hydra
+    - https://github.com/ory/k8s
+    type: application
+    urls:
+    - https://RyazanovAlexander.github.io/mathtrail-charts/charts/hydra-0.60.1.tgz
+    version: 0.60.1
   k6-operator:
   - apiVersion: v1
     appVersion: 1.2.0
-    created: "2026-02-12T05:23:52.910952098Z"
+    created: "2026-02-13T04:56:04.901815403Z"
     description: A Helm chart to install the k6-operator
     digest: 59092761e2fdd26c4069a87b3953b1963be5a6d369b91d09a0f092e37b22be17
     home: https://k6.io
@@ -99,7 +137,7 @@ entries:
   k8s-monitoring:
   - apiVersion: v2
     appVersion: 3.8.0
-    created: "2026-02-12T05:23:53.03080739Z"
+    created: "2026-02-13T04:56:05.023278634Z"
     dependencies:
     - alias: annotationAutodiscovery
       condition: annotationAutodiscovery.enabled
@@ -184,21 +222,105 @@ entries:
     urls:
     - https://RyazanovAlexander.github.io/mathtrail-charts/charts/k8s-monitoring-3.8.0.tgz
     version: 3.8.0
+  keto:
+  - apiVersion: v2
+    appVersion: v25.4.0
+    created: "2026-02-13T04:56:05.035342475Z"
+    dependencies:
+    - alias: ory
+      name: ory-commons
+      repository: file://../ory-commons
+      version: 0.1.0
+    description: Access Control Policies as a Server
+    digest: 3a55d795e56c04f8820de28bca22c3181dbb6c2bddfe1321e5e6285c6beeacce
+    home: https://www.ory.sh/keto/
+    icon: https://raw.githubusercontent.com/ory/docs/master/docs/static/img/logo-keto.svg
+    keywords:
+    - rbac
+    - hrbac
+    - acl
+    - iam
+    - api-security
+    - security
+    maintainers:
+    - email: hi@ory.sh
+      name: ORY Team
+      url: https://www.ory.sh/
+    name: keto
+    sources:
+    - https://github.com/ory/keto
+    - https://github.com/ory/k8s
+    type: application
+    urls:
+    - https://RyazanovAlexander.github.io/mathtrail-charts/charts/keto-0.60.1.tgz
+    version: 0.60.1
+  kratos:
+  - apiVersion: v2
+    appVersion: v25.4.0
+    created: "2026-02-13T04:56:05.048120482Z"
+    dependencies:
+    - alias: ory
+      name: ory-commons
+      repository: file://../ory-commons
+      version: 0.1.0
+    description: A ORY Kratos Helm chart for Kubernetes
+    digest: b576e2aa4218b456ca44c16156115e172d40b4c82fa9009f5c50fc3a6bcf9dd2
+    icon: https://raw.githubusercontent.com/ory/docs/master/docs/static/img/logo-kratos.svg
+    name: kratos
+    type: application
+    urls:
+    - https://RyazanovAlexander.github.io/mathtrail-charts/charts/kratos-0.60.1.tgz
+    version: 0.60.1
   mathtrail-service-lib:
   - apiVersion: v2
-    created: "2026-02-12T05:23:53.03972815Z"
+    created: "2026-02-13T04:56:05.062209091Z"
     description: 'Library Helm Chart for MathTrail microservices. Provides reusable
       templates. '
-    digest: 463a8662704245c31810a0065f7219939da6dcf49bdafd0d4628ebbeb4c3d11f
+    digest: c6563a715d66d998f5badf92828b9a091663fee9b127e239b62932a5fc6dd9b2
     name: mathtrail-service-lib
     type: library
     urls:
     - https://RyazanovAlexander.github.io/mathtrail-charts/charts/mathtrail-service-lib-0.1.1.tgz
     version: 0.1.1
+  oathkeeper:
+  - apiVersion: v2
+    appVersion: v25.4.0
+    created: "2026-02-13T04:56:05.074927514Z"
+    dependencies:
+    - alias: oathkeeper-maester
+      condition: maester.enabled
+      name: oathkeeper-maester
+      repository: file://../oathkeeper-maester
+      version: 0.60.1
+    description: A Helm chart for deploying ORY Oathkeeper in Kubernetes
+    digest: c9a32f981f78908524460e6e2fdac31b3a4d2961b6299468e94b25f883e4953b
+    home: https://www.ory.sh/
+    icon: https://raw.githubusercontent.com/ory/docs/master/docs/static/img/logo-oathkeeper.svg
+    keywords:
+    - zero-trust
+    - beyond-corp
+    - access-control
+    - reverse-proxy
+    - nginx
+    - envoy
+    - ambassador
+    - auth-filter
+    maintainers:
+    - email: office@ory.sh
+      name: ORY Team
+      url: https://www.ory.sh/
+    name: oathkeeper
+    sources:
+    - https://github.com/ory/oathkeeper
+    - https://github.com/ory/k8s
+    type: application
+    urls:
+    - https://RyazanovAlexander.github.io/mathtrail-charts/charts/oathkeeper-0.60.1.tgz
+    version: 0.60.1
   opentelemetry-collector:
   - apiVersion: v2
     appVersion: 0.145.0
-    created: "2026-02-12T05:23:53.052041797Z"
+    created: "2026-02-13T04:56:05.088566354Z"
     description: OpenTelemetry Collector Helm chart for Kubernetes
     digest: 6fcc59ac0d48edf35122994a707929c97ad8c26baf4161b3ac5460adf163bac8
     home: https://opentelemetry.io/
@@ -232,7 +354,7 @@ entries:
       tanzuCategory: service
     apiVersion: v2
     appVersion: 18.2.0
-    created: "2026-02-12T05:23:53.075960709Z"
+    created: "2026-02-13T04:56:05.108182879Z"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -242,7 +364,7 @@ entries:
     description: PostgreSQL (Postgres) is an open source object-relational database
       known for reliability and data integrity. ACID-compliant, it supports foreign
       keys, joins, views, triggers and stored procedures.
-    digest: ba5372395b36c8da9f7e67767a96d3f56bef614bd618eb522adfd7d9749536e1
+    digest: 93d26702ef62441658193ae923ca60db636061205d04dbe78a15393fb41be749
     home: https://bitnami.com
     icon: https://dyltqmyl993wv.cloudfront.net/assets/stacks/postgresql/img/postgresql-stack-220x234.png
     keywords:
@@ -259,12 +381,12 @@ entries:
     sources:
     - https://github.com/bitnami/charts/tree/main/bitnami/postgresql
     urls:
-    - https://RyazanovAlexander.github.io/mathtrail-charts/charts/postgresql-18.2.9.tgz
-    version: 18.2.9
+    - https://RyazanovAlexander.github.io/mathtrail-charts/charts/postgresql-18.3.0.tgz
+    version: 18.3.0
   pyroscope:
   - apiVersion: v2
     appVersion: 1.18.0
-    created: "2026-02-12T05:23:53.102979989Z"
+    created: "2026-02-13T04:56:05.138462178Z"
     dependencies:
     - alias: agent
       condition: agent.enabled
@@ -307,7 +429,7 @@ entries:
           version: 8.6.0
           image: registry-1.docker.io/bitnami/redis:latest
         - name: redis-exporter
-          version: 1.80.2
+          version: 1.81.0
           image: registry-1.docker.io/bitnami/redis-exporter:latest
         - name: redis-sentinel
           version: 8.6.0
@@ -316,7 +438,7 @@ entries:
       tanzuCategory: service
     apiVersion: v2
     appVersion: 8.6.0
-    created: "2026-02-12T05:23:53.13045922Z"
+    created: "2026-02-13T04:56:05.165412066Z"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -326,7 +448,7 @@ entries:
     description: Redis(R) is an open source, advanced key-value store. It is often
       referred to as a data structure server since keys can contain strings, hashes,
       lists, sets and sorted sets.
-    digest: 4638f841d59e8be7ac3e848752b3fb7edfbfd6a50f1cb73b5ec19299c4c647d5
+    digest: d827c4ce13a1b75a2776d7ae298b9c2031d21906d0ff89be7e075a2954e3fbe7
     home: https://bitnami.com
     icon: https://dyltqmyl993wv.cloudfront.net/assets/stacks/redis/img/redis-stack-220x234.png
     keywords:
@@ -340,12 +462,12 @@ entries:
     sources:
     - https://github.com/bitnami/charts/tree/main/bitnami/redis
     urls:
-    - https://RyazanovAlexander.github.io/mathtrail-charts/charts/redis-25.0.0.tgz
-    version: 25.0.0
+    - https://RyazanovAlexander.github.io/mathtrail-charts/charts/redis-25.2.0.tgz
+    version: 25.2.0
   strimzi-kafka-operator:
   - apiVersion: v2
     appVersion: 0.50.0
-    created: "2026-02-12T05:23:53.1649171Z"
+    created: "2026-02-13T04:56:05.194012294Z"
     description: 'Strimzi: Apache Kafka running on Kubernetes'
     digest: 3dff5a4947584f4d124a701f28df180f7dd6a8bf4c963f7f375fdb28527059af
     home: https://strimzi.io/
@@ -371,7 +493,7 @@ entries:
   telepresence:
   - apiVersion: v2
     appVersion: 2.20.2
-    created: "2026-02-12T05:23:53.175446796Z"
+    created: "2026-02-13T04:56:05.203701949Z"
     dependencies:
     - condition: ambassador-agent.enabled
       name: ambassador-agent
@@ -385,4 +507,4 @@ entries:
     urls:
     - https://RyazanovAlexander.github.io/mathtrail-charts/charts/telepresence-2.20.2.tgz
     version: 2.20.2
-generated: "2026-02-12T05:23:52.836789575Z"
+generated: "2026-02-13T04:56:04.816798243Z"
