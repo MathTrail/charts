@@ -9,7 +9,7 @@ Key file: charts/mathtrail-service-lib/ — library chart with shared templates
 # Communication Map
 No runtime communication — this is a chart repository.
 Consumed by: All service repos (Helm dependency), ArgoCD (GitOps source).
-Published via: GitHub Pages at https://RyazanovAlexander.github.io/mathtrail-charts/charts
+Published via: GitHub Pages at https://mathtrail.github.io/mathtrail-charts/
 
 # Development Standards
 - CRITICAL: Library chart values.yaml does NOT merge into parent chart — use `dig` for all nested value access

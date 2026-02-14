@@ -2,7 +2,7 @@
 
 # The base URL where this Helm repo will be hosted (GitHub Pages)
 # Override with: just --set repo_url "https://..." update
-repo_url := "https://RyazanovAlexander.github.io/mathtrail-charts"
+repo_url := "https://github.com/MathTrail/mathtrail-charts"
 
 # Update all Helm charts and regenerate the repo index
 update:

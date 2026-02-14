@@ -327,7 +327,7 @@ just --set repo_url "https://my-org.github.io/charts" update
 The [.github/workflows/helm-repo.yml](../.github/workflows/helm-repo.yml) automatically:
 - Triggers on push to `main` when charts/** changes
 - Deploys entire repo to GitHub Pages
-- Makes charts available at `https://RyazanovAlexander.github.io/mathtrail-charts`
+- Makes charts available at `https://MathTrail.github.io/mathtrail-charts`
 
 **Prompt for CI/CD changes:**
 ```
@@ -344,7 +344,7 @@ Microservices use the library via Helm dependencies:
 dependencies:
   - name: mathtrail-service-lib
     version: "0.1.0"
-    repository: "https://RyazanovAlexander.github.io/mathtrail-charts"
+    repository: "https://github.com/MathTrail/mathtrail-charts"
 
 # templates/all.yaml
 {{ include "mathtrail-service-lib.deployment" . }}
@@ -460,4 +460,4 @@ Explain the trade-offs and risks.
 
 **Last Updated:** 2026-02-08
 **Maintained By:** MathTrail Team
-**Repository:** https://github.com/RyazanovAlexander/mathtrail-charts
+**Repository:** https://github.com/MathTrail/mathtrail-charts
