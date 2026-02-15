@@ -16,7 +16,7 @@ github:
   runnerToken: ""
 
 # -- Runner labels (comma-separated)
-runnerLabels: "self-hosted,linux,k3s"
+runnerLabels: "self-hosted,linux,k3s,buildah-ready"
 
 # -- Runner name prefix
 runnerNamePrefix: "k3s-runner"
