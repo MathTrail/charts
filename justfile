@@ -2,7 +2,7 @@
 
 # The base URL where this Helm repo will be hosted (GitHub Pages)
 # Override with: just --set repo_url "https://..." update
-repo_url := "https://github.com/MathTrail/charts"
+repo_url := "https://MathTrail.github.io/charts"
 
 # Update all Helm charts and regenerate the repo index
 update:
@@ -59,7 +59,7 @@ update:
     helm package ./charts/mathtrail-service-lib --destination ./charts
 
     echo "📦 Generating Helm repo index..."
-    helm repo index ./charts --url {{ repo_url }}/charts
+    helm repo index ./charts --url {{ repo_url }}
     
     echo "✅ All charts updated successfully!"
     echo ""
