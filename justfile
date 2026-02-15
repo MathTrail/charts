@@ -59,6 +59,10 @@ update:
     rm -f ./charts/mathtrail-service-lib-*.tgz
     helm package ./charts/mathtrail-service-lib --destination ./charts
 
+    echo "📦 Packaging github-runner chart..."
+    rm -f ./charts/github-runner-*.tgz
+    helm package ./charts/github-runner --destination ./charts
+
     echo "📦 Generating Helm repo index..."
     helm repo index ./charts --url {{ repo_url }}/charts
     
