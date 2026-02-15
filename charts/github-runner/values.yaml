@@ -1,0 +1,52 @@
+# -- Number of runner replicas
+replicaCount: 1
+
+# -- Container image
+image:
+  repository: k3d-mathtrail-registry.localhost:5050/ci-runner
+  tag: latest
+  pullPolicy: Always
+
+# -- GitHub configuration (REQUIRED)
+github:
+  # Repository URL, e.g. https://github.com/MathTrail/mentor-api
+  # Can also be an org URL: https://github.com/MathTrail
+  url: ""
+  # Runner registration token (stored in a Secret)
+  runnerToken: ""
+
+# -- Runner labels (comma-separated)
+runnerLabels: "self-hosted,linux,k3s"
+
+# -- Runner name prefix
+runnerNamePrefix: "k3s-runner"
+
+# -- Resource requests/limits
+resources:
+  requests:
+    cpu: "500m"
+    memory: "512Mi"
+  limits:
+    cpu: "2"
+    memory: "2Gi"
+
+# -- ServiceAccount
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
+
+# -- RBAC
+rbac:
+  create: true
+
+# -- Docker socket mount (for Docker-in-Docker via host socket)
+dockerSocket:
+  enabled: true
+  hostPath: /var/run/docker.sock
+
+# -- Node selector
+nodeSelector: {}
+
+# -- Tolerations
+tolerations: []

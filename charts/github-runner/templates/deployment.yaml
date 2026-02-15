@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "github-runner.fullname" . }}
+  labels:
+    {{- include "github-runner.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "github-runner.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "github-runner.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "github-runner.serviceAccountName" . }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: runner
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: RUNNER_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: RUNNER_LABELS
+              value: {{ .Values.runnerLabels | quote }}
+            - name: REPO_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "github-runner.fullname" . }}
+                  key: REPO_URL
+            - name: RUNNER_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "github-runner.fullname" . }}
+                  key: RUNNER_TOKEN
+            - name: DOCKER_HOST
+              value: "unix:///var/run/docker.sock"
+          command:
+            - /bin/bash
+            - -c
+            - |
+              ./config.sh \
+                --url "${REPO_URL}" \
+                --token "${RUNNER_TOKEN}" \
+                --name "${RUNNER_NAME}" \
+                --labels "${RUNNER_LABELS}" \
+                --unattended \
+                --replace \
+                --ephemeral
+              ./run.sh
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            {{- if .Values.dockerSocket.enabled }}
+            - name: docker-sock
+              mountPath: /var/run/docker.sock
+            {{- end }}
+      volumes:
+        {{- if .Values.dockerSocket.enabled }}
+        - name: docker-sock
+          hostPath:
+            path: {{ .Values.dockerSocket.hostPath }}
+            type: Socket
+        {{- end }}
