@@ -71,7 +71,7 @@ dependencies:
     repository: "https://<org>.github.io/mathtrail-charts"
 ```
 
-### 2. templates/all.yaml
+### 2. templates/main.yaml
 
 ```yaml
 {{ include "mathtrail-service-lib.serviceAccount" . }}

@@ -175,7 +175,7 @@ Ensure backward compatibility by making new settings optional.
 Create documentation for [specific scenario] showing:
 1. The minimal Chart.yaml dependency declaration
 2. The required values.yaml configuration
-3. A complete templates/all.yaml example
+3. A complete templates/main.yaml example
 4. Common gotchas and troubleshooting tips
 
 Use the existing README.md style and markdown formatting.
@@ -346,7 +346,7 @@ dependencies:
     version: "0.1.0"
     repository: "https://github.com/MathTrail/charts"
 
-# templates/all.yaml
+# templates/main.yaml
 {{ include "mathtrail-service-lib.deployment" . }}
 ---
 {{ include "mathtrail-service-lib.service" . }}
@@ -358,7 +358,7 @@ Show me how to create a new MathTrail microservice that uses mathtrail-service-l
 Include:
 - Minimal Chart.yaml with dependency
 - Required values.yaml configuration for [type, e.g., "gRPC service with DB migrations"]
-- Complete templates/all.yaml
+- Complete templates/main.yaml
 ```
 
 ## Planned Features
