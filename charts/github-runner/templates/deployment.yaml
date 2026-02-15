@@ -48,9 +48,10 @@ spec:
               value: "tcp://localhost:{{ .Values.buildkit.port | default 1234 }}"
           command:
             - /bin/bash
-            - -c
+            - -ec
             - |
               cd /home/runner
+              echo "Configuring runner for ${REPO_URL}..."
               ./config.sh \
                 --url "${REPO_URL}" \
                 --token "${RUNNER_TOKEN}" \
@@ -59,6 +60,7 @@ spec:
                 --unattended \
                 --replace \
                 --ephemeral
+              echo "Runner configured, starting..."
               exec ./run.sh
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
