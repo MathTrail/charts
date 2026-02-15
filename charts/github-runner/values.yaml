@@ -65,7 +65,7 @@ buildkit:
   cacheSize: "10Gi"
   # Insecure registries for k3d
   insecureRegistries:
-    - "k3d-mathtrail-registry.localhost:5050"
+    - "k3d-mathtrail-registry:5000"
 
 # -- Node selector
 nodeSelector: {}
