@@ -9,7 +9,7 @@ rules:
   # Namespace management (ci-prepare / ci-cleanup)
   - apiGroups: [""]
     resources: ["namespaces"]
-    verbs: ["create", "delete", "get", "list"]
+    verbs: ["create", "delete", "get", "list", "patch", "update"]
   # Workload management (deploy, test, status)
   - apiGroups: [""]
     resources: ["pods", "services", "configmaps", "secrets", "persistentvolumeclaims"]
