@@ -40,10 +40,32 @@ serviceAccount:
 rbac:
   create: true
 
-# -- Docker socket mount (for Docker-in-Docker via host socket)
-dockerSocket:
+# -- BuildKit daemon (sidecar for in-cluster builds)
+buildkit:
   enabled: true
-  hostPath: /var/run/docker.sock
+  image:
+    repository: moby/buildkit
+    tag: v0.27.1-rootless
+    pullPolicy: IfNotPresent
+  port: 1234
+  # Rootless security context
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    seccompProfile:
+      type: Unconfined
+  resources:
+    requests:
+      cpu: "250m"
+      memory: "512Mi"
+    limits:
+      cpu: "2"
+      memory: "4Gi"
+  # Layer cache size
+  cacheSize: "10Gi"
+  # Insecure registries for k3d
+  insecureRegistries:
+    - "k3d-mathtrail-registry.localhost:5050"
 
 # -- Node selector
 nodeSelector: {}

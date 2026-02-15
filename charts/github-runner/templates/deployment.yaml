@@ -44,8 +44,8 @@ spec:
                 secretKeyRef:
                   name: {{ include "github-runner.fullname" . }}
                   key: RUNNER_TOKEN
-            - name: DOCKER_HOST
-              value: "unix:///var/run/docker.sock"
+            - name: BUILDKIT_HOST
+              value: "tcp://localhost:{{ .Values.buildkit.port | default 1234 }}"
           command:
             - /bin/bash
             - -c
@@ -61,15 +61,36 @@ spec:
               ./run.sh
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-          volumeMounts:
-            {{- if .Values.dockerSocket.enabled }}
-            - name: docker-sock
-              mountPath: /var/run/docker.sock
+        {{- if .Values.buildkit.enabled }}
+        - name: buildkitd
+          image: "{{ .Values.buildkit.image.repository }}:{{ .Values.buildkit.image.tag }}"
+          imagePullPolicy: {{ .Values.buildkit.image.pullPolicy }}
+          args:
+            - --addr
+            - tcp://0.0.0.0:{{ .Values.buildkit.port | default 1234 }}
+            - --oci-worker-no-process-sandbox
+            {{- range .Values.buildkit.insecureRegistries }}
+            - --debug-insecure-registry={{ . }}
             {{- end }}
+          securityContext:
+            {{- toYaml .Values.buildkit.securityContext | nindent 12 }}
+          ports:
+            - containerPort: {{ .Values.buildkit.port | default 1234 }}
+              protocol: TCP
+          readinessProbe:
+            exec:
+              command: ["buildctl", "debug", "workers"]
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.buildkit.resources | nindent 12 }}
+          volumeMounts:
+            - name: buildkit-cache
+              mountPath: /home/user/.local/share/buildkit
+        {{- end }}
       volumes:
-        {{- if .Values.dockerSocket.enabled }}
-        - name: docker-sock
-          hostPath:
-            path: {{ .Values.dockerSocket.hostPath }}
-            type: Socket
+        {{- if .Values.buildkit.enabled }}
+        - name: buildkit-cache
+          emptyDir:
+            sizeLimit: {{ .Values.buildkit.cacheSize | default "10Gi" }}
         {{- end }}
