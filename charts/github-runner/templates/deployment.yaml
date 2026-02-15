@@ -70,9 +70,8 @@ spec:
             - --addr
             - tcp://0.0.0.0:{{ .Values.buildkit.port | default 1234 }}
             - --oci-worker-no-process-sandbox
-            {{- range .Values.buildkit.insecureRegistries }}
-            - --debug-insecure-registry={{ . }}
-            {{- end }}
+            - --config
+            - /etc/buildkit/buildkitd.toml
           securityContext:
             {{- toYaml .Values.buildkit.securityContext | nindent 12 }}
           ports:
@@ -88,10 +87,16 @@ spec:
           volumeMounts:
             - name: buildkit-cache
               mountPath: /home/user/.local/share/buildkit
+            - name: buildkitd-config
+              mountPath: /etc/buildkit
+              readOnly: true
         {{- end }}
       volumes:
         {{- if .Values.buildkit.enabled }}
         - name: buildkit-cache
           emptyDir:
             sizeLimit: {{ .Values.buildkit.cacheSize | default "10Gi" }}
+        - name: buildkitd-config
+          configMap:
+            name: {{ include "github-runner.fullname" . }}-buildkitd
         {{- end }}

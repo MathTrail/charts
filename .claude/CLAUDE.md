@@ -254,6 +254,12 @@ These validations are in [_helpers.tpl](../charts/mathtrail-service-lib/template
 
 ## Best Practices
 
+### Versioning
+
+- **Always bump the chart `version` in `Chart.yaml`** when making any change to a chart's templates, values, or configuration
+- Use [Semantic Versioning](https://semver.org/): patch for fixes/tweaks, minor for new features, major for breaking changes
+- This applies to all charts in the repository (library charts, application charts, etc.)
+
 ### When Working with Templates
 
 1. **Never Hardcode Values**: Use `.Values.*` with sensible defaults
