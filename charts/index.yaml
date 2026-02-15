@@ -9,7 +9,7 @@ entries:
       artifacthub.io/prerelease: "false"
     apiVersion: v2
     appVersion: 2.8.1
-    created: "2026-02-15T00:15:53.030469708Z"
+    created: "2026-02-15T00:30:04.831270359Z"
     description: Chaos Mesh is a cloud-native Chaos Engineering platform that orchestrates
       chaos on Kubernetes environments.
     digest: 27d3411c18c15eb55e40b4c5255a06d7a6f8d97b722f58faae0255fe5c894f4b
@@ -36,12 +36,12 @@ entries:
     sources:
     - https://github.com/chaos-mesh/chaos-mesh
     urls:
-    - https://MathTrail.github.io/charts/chaos-mesh-2.8.1.tgz
+    - https://MathTrail.github.io/charts/charts/chaos-mesh-2.8.1.tgz
     version: 2.8.1
   dapr:
   - apiVersion: v2
     appVersion: 1.16.9
-    created: "2026-02-15T00:15:53.04408229Z"
+    created: "2026-02-15T00:30:04.84471252Z"
     dependencies:
     - name: dapr_rbac
       repository: file://dapr_rbac
@@ -69,12 +69,12 @@ entries:
     icon: https://dapr.io/images/dapr.svg
     name: dapr
     urls:
-    - https://MathTrail.github.io/charts/dapr-1.16.9.tgz
+    - https://MathTrail.github.io/charts/charts/dapr-1.16.9.tgz
     version: 1.16.9
   hydra:
   - apiVersion: v2
     appVersion: v25.4.0
-    created: "2026-02-15T00:15:53.059270765Z"
+    created: "2026-02-15T00:30:04.85688907Z"
     dependencies:
     - alias: ory
       name: ory-commons
@@ -107,12 +107,12 @@ entries:
     - https://github.com/ory/k8s
     type: application
     urls:
-    - https://MathTrail.github.io/charts/hydra-0.60.1.tgz
+    - https://MathTrail.github.io/charts/charts/hydra-0.60.1.tgz
     version: 0.60.1
   k6-operator:
   - apiVersion: v1
     appVersion: 1.2.0
-    created: "2026-02-15T00:15:53.075994229Z"
+    created: "2026-02-15T00:30:04.866207219Z"
     description: A Helm chart to install the k6-operator
     digest: 59092761e2fdd26c4069a87b3953b1963be5a6d369b91d09a0f092e37b22be17
     home: https://k6.io
@@ -132,12 +132,12 @@ entries:
     sources:
     - https://github.com/grafana/k6-operator
     urls:
-    - https://MathTrail.github.io/charts/k6-operator-4.2.0.tgz
+    - https://MathTrail.github.io/charts/charts/k6-operator-4.2.0.tgz
     version: 4.2.0
   k8s-monitoring:
   - apiVersion: v2
     appVersion: 3.8.0
-    created: "2026-02-15T00:15:53.22711122Z"
+    created: "2026-02-15T00:30:04.981829569Z"
     dependencies:
     - alias: annotationAutodiscovery
       condition: annotationAutodiscovery.enabled
@@ -220,12 +220,12 @@ entries:
     - https://github.com/grafana/k8s-monitoring-helm/tree/main/charts/k8s-monitoring
     type: application
     urls:
-    - https://MathTrail.github.io/charts/k8s-monitoring-3.8.0.tgz
+    - https://MathTrail.github.io/charts/charts/k8s-monitoring-3.8.0.tgz
     version: 3.8.0
   keto:
   - apiVersion: v2
     appVersion: v25.4.0
-    created: "2026-02-15T00:15:53.240655571Z"
+    created: "2026-02-15T00:30:04.993769019Z"
     dependencies:
     - alias: ory
       name: ory-commons
@@ -252,12 +252,12 @@ entries:
     - https://github.com/ory/k8s
     type: application
     urls:
-    - https://MathTrail.github.io/charts/keto-0.60.1.tgz
+    - https://MathTrail.github.io/charts/charts/keto-0.60.1.tgz
     version: 0.60.1
   kratos:
   - apiVersion: v2
     appVersion: v25.4.0
-    created: "2026-02-15T00:15:53.255130706Z"
+    created: "2026-02-15T00:30:05.005243336Z"
     dependencies:
     - alias: ory
       name: ory-commons
@@ -269,23 +269,23 @@ entries:
     name: kratos
     type: application
     urls:
-    - https://MathTrail.github.io/charts/kratos-0.60.1.tgz
+    - https://MathTrail.github.io/charts/charts/kratos-0.60.1.tgz
     version: 0.60.1
   mathtrail-service-lib:
   - apiVersion: v2
-    created: "2026-02-15T00:15:53.269271435Z"
+    created: "2026-02-15T00:30:05.01863197Z"
     description: 'Library Helm Chart for MathTrail microservices. Provides reusable
       templates. '
-    digest: 7f5b5018d8cd88fa25ff1a4ba3439fc2d33e2bbc5af7cb023b89f7d37c7c924d
+    digest: b05f0e126a52cdb8be17dc97e36735426ba404b52695dc4f3e14cc8b9ad5286a
     name: mathtrail-service-lib
     type: library
     urls:
-    - https://MathTrail.github.io/charts/mathtrail-service-lib-0.1.1.tgz
+    - https://MathTrail.github.io/charts/charts/mathtrail-service-lib-0.1.1.tgz
     version: 0.1.1
   oathkeeper:
   - apiVersion: v2
     appVersion: v25.4.0
-    created: "2026-02-15T00:15:53.285231854Z"
+    created: "2026-02-15T00:30:05.03822684Z"
     dependencies:
     - alias: oathkeeper-maester
       condition: maester.enabled
@@ -315,12 +315,12 @@ entries:
     - https://github.com/ory/k8s
     type: application
     urls:
-    - https://MathTrail.github.io/charts/oathkeeper-0.60.1.tgz
+    - https://MathTrail.github.io/charts/charts/oathkeeper-0.60.1.tgz
     version: 0.60.1
   opentelemetry-collector:
   - apiVersion: v2
     appVersion: 0.145.0
-    created: "2026-02-15T00:15:53.305564352Z"
+    created: "2026-02-15T00:30:05.054307503Z"
     description: OpenTelemetry Collector Helm chart for Kubernetes
     digest: 6fcc59ac0d48edf35122994a707929c97ad8c26baf4161b3ac5460adf163bac8
     home: https://opentelemetry.io/
@@ -335,7 +335,7 @@ entries:
     - https://github.com/open-telemetry/opentelemetry-collector-contrib
     type: application
     urls:
-    - https://MathTrail.github.io/charts/opentelemetry-collector-0.145.0.tgz
+    - https://MathTrail.github.io/charts/charts/opentelemetry-collector-0.145.0.tgz
     version: 0.145.0
   postgresql:
   - annotations:
@@ -354,7 +354,7 @@ entries:
       tanzuCategory: service
     apiVersion: v2
     appVersion: 18.2.0
-    created: "2026-02-15T00:15:53.345476168Z"
+    created: "2026-02-15T00:30:05.077583349Z"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -381,12 +381,12 @@ entries:
     sources:
     - https://github.com/bitnami/charts/tree/main/bitnami/postgresql
     urls:
-    - https://MathTrail.github.io/charts/postgresql-18.3.0.tgz
+    - https://MathTrail.github.io/charts/charts/postgresql-18.3.0.tgz
     version: 18.3.0
   pyroscope:
   - apiVersion: v2
     appVersion: 1.18.0
-    created: "2026-02-15T00:15:53.380667291Z"
+    created: "2026-02-15T00:30:05.111083307Z"
     dependencies:
     - alias: agent
       condition: agent.enabled
@@ -413,7 +413,7 @@ entries:
     - https://github.com/grafana/pyroscope/tree/main/operations/pyroscope/helm/pyroscope
     type: application
     urls:
-    - https://MathTrail.github.io/charts/pyroscope-1.18.1.tgz
+    - https://MathTrail.github.io/charts/charts/pyroscope-1.18.1.tgz
     version: 1.18.1
   redis:
   - annotations:
@@ -438,7 +438,7 @@ entries:
       tanzuCategory: service
     apiVersion: v2
     appVersion: 8.6.0
-    created: "2026-02-15T00:15:53.407139509Z"
+    created: "2026-02-15T00:30:05.141287216Z"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -462,12 +462,12 @@ entries:
     sources:
     - https://github.com/bitnami/charts/tree/main/bitnami/redis
     urls:
-    - https://MathTrail.github.io/charts/redis-25.2.0.tgz
+    - https://MathTrail.github.io/charts/charts/redis-25.2.0.tgz
     version: 25.2.0
   strimzi-kafka-operator:
   - apiVersion: v2
     appVersion: 0.50.0
-    created: "2026-02-15T00:15:53.917317409Z"
+    created: "2026-02-15T00:30:05.170336324Z"
     description: 'Strimzi: Apache Kafka running on Kubernetes'
     digest: 3dff5a4947584f4d124a701f28df180f7dd6a8bf4c963f7f375fdb28527059af
     home: https://strimzi.io/
@@ -488,12 +488,12 @@ entries:
     sources:
     - https://github.com/strimzi/strimzi-kafka-operator
     urls:
-    - https://MathTrail.github.io/charts/strimzi-kafka-operator-helm-3-chart-0.50.0.tgz
+    - https://MathTrail.github.io/charts/charts/strimzi-kafka-operator-helm-3-chart-0.50.0.tgz
     version: 0.50.0
   telepresence:
   - apiVersion: v2
     appVersion: 2.20.2
-    created: "2026-02-15T00:15:53.958353084Z"
+    created: "2026-02-15T00:30:05.180651982Z"
     dependencies:
     - condition: ambassador-agent.enabled
       name: ambassador-agent
@@ -505,6 +505,6 @@ entries:
     name: telepresence
     type: application
     urls:
-    - https://MathTrail.github.io/charts/telepresence-2.20.2.tgz
+    - https://MathTrail.github.io/charts/charts/telepresence-2.20.2.tgz
     version: 2.20.2
-generated: "2026-02-15T00:15:52.959815236Z"
+generated: "2026-02-15T00:30:04.76810036Z"

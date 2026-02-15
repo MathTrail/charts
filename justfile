@@ -59,7 +59,7 @@ update:
     helm package ./charts/mathtrail-service-lib --destination ./charts
 
     echo "📦 Generating Helm repo index..."
-    helm repo index ./charts --url {{ repo_url }}
+    helm repo index ./charts --url {{ repo_url }}/charts
     
     echo "✅ All charts updated successfully!"
     echo ""
