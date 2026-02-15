@@ -50,6 +50,7 @@ spec:
             - /bin/bash
             - -c
             - |
+              cd /home/runner
               ./config.sh \
                 --url "${REPO_URL}" \
                 --token "${RUNNER_TOKEN}" \
@@ -58,7 +59,7 @@ spec:
                 --unattended \
                 --replace \
                 --ephemeral
-              ./run.sh
+              exec ./run.sh
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
         {{- if .Values.buildkit.enabled }}
