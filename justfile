@@ -55,13 +55,15 @@ update:
     rm -f ./charts/telepresence-*.tgz
     helm pull oci://ghcr.io/telepresenceio/telepresence-oss --destination ./charts
 
-    echo "📦 Packaging mathtrail-service-lib library chart..."
+    echo "📦 Packaging local project charts..."
     rm -f ./charts/mathtrail-service-lib-*.tgz
-    helm package ./charts/mathtrail-service-lib --destination ./charts
+    helm package ./mathtrail-charts/mathtrail-service-lib --destination ./charts
 
-    echo "📦 Packaging github-runner chart..."
     rm -f ./charts/github-runner-*.tgz
-    helm package ./charts/github-runner --destination ./charts
+    helm package ./mathtrail-charts/github-runner --destination ./charts
+
+    rm -f ./charts/k6-test-runner-*.tgz
+    helm package ./mathtrail-charts/k6-test-runner --destination ./charts
 
     echo "📦 Generating Helm repo index..."
     helm repo index ./charts --url {{ repo_url }}/charts

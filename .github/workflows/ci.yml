@@ -6,21 +6,21 @@ on:
 
 jobs:
   verify-charts:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Linux, X64]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # - name: Run just update
-      #   run: just update
+      - name: Run just update
+        run: just update
 
-      # - name: Ensure charts are up to date
-      #   shell: bash
-      #   run: |
-      #     set -e
-      #     if [ -n "$(git status --porcelain charts/charts)" ]; then
-      #       echo "❌ charts/charts changed after running 'just update'."
-      #       echo "   Run 'just update' locally and commit the changes."
-      #       git status --porcelain charts/charts
-      #       exit 1
-      #     fi
+      - name: Ensure charts are up to date
+        shell: bash
+        run: |
+          set -e
+          if [ -n "$(git status --porcelain charts/charts)" ]; then
+            echo "❌ charts/charts changed after running 'just update'."
+            echo "   Run 'just update' locally and commit the changes."
+            git status --porcelain charts/charts
+            exit 1
+          fi

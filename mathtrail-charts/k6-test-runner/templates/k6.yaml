@@ -1,0 +1,23 @@
+apiVersion: k6.io/v1alpha1
+kind: K6
+metadata:
+  name: {{ .Release.Name }}
+  labels:
+    {{- include "k6-test-runner.labels" . | nindent 4 }}
+spec:
+  parallelism: {{ .Values.parallelism }}
+  cleanup: {{ .Values.cleanup }}
+  script:
+    configMap:
+      name: {{ .Release.Name }}-scripts
+      file: {{ .Values.entrypoint }}
+  runner:
+    env:
+      - name: BASE_URL
+        value: {{ .Values.baseUrl | quote }}
+    {{- with .Values.runner }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- if .Values.arguments }}
+  arguments: {{ .Values.arguments | quote }}
+  {{- end }}
