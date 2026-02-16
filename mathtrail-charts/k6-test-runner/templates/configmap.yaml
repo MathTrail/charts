@@ -1,11 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-scripts
+  name: {{ .Release.Name }}-script
   labels:
     {{- include "k6-test-runner.labels" . | nindent 4 }}
 data:
-  {{- range $path, $_ := .Files.Glob "scripts/**" }}
-  {{ base $path }}: |
-    {{ $.Files.Get $path | nindent 4 }}
-  {{- end }}
+  main.js: |
+{{ .Values.loadTestScript | indent 4 }}

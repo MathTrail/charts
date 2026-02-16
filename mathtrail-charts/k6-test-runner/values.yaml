@@ -1,6 +1,6 @@
 parallelism: 2
 cleanup: "post"
-entrypoint: "main.js"
 baseUrl: ""
 arguments: "--summary-export=/tmp/summary.json"
+loadTestScript: ""
 runner: {}

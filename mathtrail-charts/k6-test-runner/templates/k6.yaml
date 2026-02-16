@@ -9,8 +9,8 @@ spec:
   cleanup: {{ .Values.cleanup }}
   script:
     configMap:
-      name: {{ .Release.Name }}-scripts
-      file: {{ .Values.entrypoint }}
+      name: {{ .Release.Name }}-script
+      file: main.js
   runner:
     env:
       - name: BASE_URL
