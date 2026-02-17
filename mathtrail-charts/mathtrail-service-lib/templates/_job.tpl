@@ -48,19 +48,36 @@ spec:
           args:
             {{- toYaml . | nindent 12 }}
           {{- end }}
+
+          {{/* ---- Environment variables ---- */}}
+          {{/* Migration inherits env from main deployment by default */}}
+          {{- if or .Values.env $v.migration.env }}
+          env:
+            {{/* First: base env from deployment (if specified) */}}
+            {{- with .Values.env }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+            {{/* Second: migration-specific env (can override base) */}}
+            {{- with $v.migration.env }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+          {{- end }}
+
+          {{/* ---- Environment From (ConfigMap, Secrets) ---- */}}
+          {{- if or $v.configMap.enabled .Values.envFrom $v.migration.envFrom }}
           envFrom:
             {{- if $v.configMap.enabled }}
             - configMapRef:
                 name: {{ include "mathtrail-service-lib.fullname" . }}-env
             {{- end }}
-          {{- with $v.migration.env }}
-          env:
+            {{- with .Values.envFrom }}
             {{- toYaml . | nindent 12 }}
-          {{- end }}
-          {{- with $v.migration.envFrom }}
-          envFrom:
+            {{- end }}
+            {{- with $v.migration.envFrom }}
             {{- toYaml . | nindent 12 }}
+            {{- end }}
           {{- end }}
+
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: {{ $v.securityContext.readOnlyRootFilesystem }}

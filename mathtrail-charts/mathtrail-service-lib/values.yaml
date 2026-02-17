@@ -92,12 +92,22 @@ resources:
     memory: "512Mi"
 
 # -- Migration Job (runs BEFORE the deployment)
+# The migration job automatically inherits environment variables from the main deployment's `env` and `envFrom`.
+# This eliminates the need to duplicate database connection variables.
+# Example:
+#   env:  # Shared by both deployment and migration
+#     - name: DB_HOST
+#       value: "postgres"
+#   migration:
+#     enabled: true
+#     command: ["/migrate"]
+#     env: []  # Optional: migration-specific overrides only
 migration:
   enabled: false
   command: ["./migrate"]
   args: []
-  env: []
-  envFrom: []
+  env: []      # Optional: migration-specific env variables (merged with main `env`)
+  envFrom: []  # Optional: migration-specific envFrom (merged with main `envFrom`)
   backoffLimit: 3
   ttlSecondsAfterFinished: 300
   restartPolicy: OnFailure
