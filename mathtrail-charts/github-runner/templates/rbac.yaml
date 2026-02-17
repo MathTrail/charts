@@ -28,6 +28,10 @@ rules:
   - apiGroups: ["rbac.authorization.k8s.io"]
     resources: ["roles", "rolebindings", "clusterroles", "clusterrolebindings"]
     verbs: ["create", "delete", "get", "list", "bind", "escalate"]
+  # PodDisruptionBudgets (Helm charts like PostgreSQL create PDBs)
+  - apiGroups: ["policy"]
+    resources: ["poddisruptionbudgets"]
+    verbs: ["create", "delete", "get", "list", "watch", "patch", "update"]
   # Events (for waiting/watching)
   - apiGroups: [""]
     resources: ["events"]
