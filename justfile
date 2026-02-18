@@ -18,6 +18,8 @@ update:
     helm repo add datawire https://app.getambassador.io 2>/dev/null || true
     helm repo add chaos-mesh https://charts.chaos-mesh.org 2>/dev/null || true
     helm repo add ory https://k8s.ory.sh/helm/charts 2>/dev/null || true
+    helm repo add hashicorp https://helm.releases.hashicorp.com 2>/dev/null || true
+    helm repo add external-secrets https://charts.external-secrets.io 2>/dev/null || true
 
     helm repo update
 
@@ -47,6 +49,10 @@ update:
     pull_chart k8s-monitoring grafana/k8s-monitoring
     pull_chart opentelemetry-collector open-telemetry/opentelemetry-collector
     pull_chart pyroscope grafana/pyroscope
+
+    echo "📥 Pulling Security charts..."
+    pull_chart vault hashicorp/vault
+    pull_chart external-secrets external-secrets/external-secrets
 
     echo "📥 Pulling Chaos Engineering..."
     pull_chart chaos-mesh chaos-mesh/chaos-mesh
