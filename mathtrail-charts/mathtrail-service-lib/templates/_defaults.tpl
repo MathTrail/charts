@@ -80,6 +80,9 @@ autoscaling:
   minReplicas: 1
   maxReplicas: 10
   targetCPUUtilizationPercentage: 80
+dashboard:
+  enabled: false
+  folder: "MathTrail"
 {{- end -}}
 
 {{/*
