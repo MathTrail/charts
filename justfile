@@ -18,6 +18,8 @@ update:
     helm repo add datawire https://app.getambassador.io 2>/dev/null || true
     helm repo add chaos-mesh https://charts.chaos-mesh.org 2>/dev/null || true
     helm repo add ory https://k8s.ory.sh/helm/charts 2>/dev/null || true
+    helm repo add hashicorp https://helm.releases.hashicorp.com 2>/dev/null || true
+    helm repo add external-secrets https://charts.external-secrets.io 2>/dev/null || true
 
     helm repo update
 
@@ -48,6 +50,10 @@ update:
     pull_chart opentelemetry-collector open-telemetry/opentelemetry-collector
     pull_chart pyroscope grafana/pyroscope
 
+    echo "📥 Pulling Security charts..."
+    pull_chart vault hashicorp/vault
+    pull_chart external-secrets external-secrets/external-secrets
+
     echo "📥 Pulling Chaos Engineering..."
     pull_chart chaos-mesh chaos-mesh/chaos-mesh
 
@@ -74,3 +80,34 @@ update:
     ls -1 ./charts/*.tgz
     echo ""
     echo "📋 Index generated at ./charts/index.yaml"
+
+# Verify that charts/ is up to date with changes in mathtrail-charts/
+verify-charts-updated:
+    #!/bin/bash
+    set -e
+    failed=0
+    for chart_dir in mathtrail-charts/*/; do
+        name=$(helm show chart "$chart_dir" | grep '^name:' | awk '{print $2}')
+        version=$(helm show chart "$chart_dir" | grep '^version:' | awk '{print $2}')
+        tgz="charts/${name}-${version}.tgz"
+
+        if [ ! -f "$tgz" ]; then
+            echo "❌ Missing: $tgz — run 'just update' and commit"
+            failed=1
+            continue
+        fi
+
+        # Extract tgz and compare against source directory
+        extracted=$(mktemp -d)
+        tar xzf "$tgz" -C "$extracted"
+
+        if diff -r --strip-trailing-cr --exclude='Chart.yaml' --exclude='.helmignore' "$extracted/$name/" "$chart_dir" > /dev/null 2>&1; then
+            echo "✅ $name-$version"
+        else
+            echo "❌ $name-$version: source differs from packaged chart — run 'just update' and commit"
+            diff -r --strip-trailing-cr --exclude='Chart.yaml' --exclude='.helmignore' "$extracted/$name/" "$chart_dir" || true
+            failed=1
+        fi
+        rm -rf "$extracted"
+    done
+    if [ $failed -ne 0 ]; then exit 1; fi

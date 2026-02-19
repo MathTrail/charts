@@ -1,0 +1,16 @@
+# Normalize line endings to LF for all text files
+* text=auto eol=lf
+
+# Explicitly LF for these types
+*.yaml text eol=lf
+*.yml  text eol=lf
+*.tpl  text eol=lf
+*.md   text eol=lf
+*.json text eol=lf
+*.sh   text eol=lf
+justfile text eol=lf
+
+# Binary — do not touch
+*.tgz binary
+*.png binary
+*.jpg binary
