@@ -20,15 +20,15 @@
       "extensions": [
         "GitHub.vscode-github-actions",
         "ms-kubernetes-tools.vscode-kubernetes-tools",
-        "redhat.vscode-yaml",
         "eamodio.gitlens",
         "sclu1034.justfile",
         "anthropic.claude-code",
         "Tim-Koehler.helm-intellisense"
       ],
       "settings": {
-        "yaml.schemas": {
-          "https://json.schemastore.org/github-workflow.json": ".github/workflows/*.yml"
+        "files.associations": {
+          "**/templates/*.yaml": "helm",
+          "**/templates/*.tpl": "helm"
         }
       }
     }
