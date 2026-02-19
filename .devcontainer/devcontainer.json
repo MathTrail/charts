@@ -18,16 +18,17 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "ms-kubernetes.helm",
+        "GitHub.vscode-github-actions",
+        "ms-kubernetes-tools.vscode-kubernetes-tools",
         "redhat.vscode-yaml",
-        "tim-koehler.helm-intellisense",
         "eamodio.gitlens",
         "sclu1034.justfile",
-        "anthropic.claude-code"
+        "anthropic.claude-code",
+        "Tim-Koehler.helm-intellisense"
       ],
       "settings": {
         "yaml.schemas": {
-          "https://json.schemastore.org/helm-chart.json": "Chart.yaml"
+          "https://json.schemastore.org/github-workflow.json": ".github/workflows/*.yml"
         }
       }
     }

@@ -80,3 +80,15 @@ update:
     ls -1 ./charts/*.tgz
     echo ""
     echo "📋 Index generated at ./charts/index.yaml"
+
+# Verify that charts/ is up to date with changes in mathtrail-charts/
+verify-charts-updated:
+    #!/bin/bash
+    set -e
+    if [ -n "$(git status --porcelain charts/)" ]; then
+        echo "❌ charts/ changed after running 'just update'."
+        echo "   Run 'just update' locally and commit the changes."
+        git status --porcelain charts/
+        exit 1
+    fi
+    echo "✅ Charts are up to date"

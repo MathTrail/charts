@@ -14,13 +14,5 @@ jobs:
       - name: Run just update
         run: just update
 
-      - name: Ensure charts are up to date
-        shell: bash
-        run: |
-          set -e
-          if [ -n "$(git status --porcelain charts/charts)" ]; then
-            echo "❌ charts/charts changed after running 'just update'."
-            echo "   Run 'just update' locally and commit the changes."
-            git status --porcelain charts/charts
-            exit 1
-          fi
+      - name: Verify charts are up to date
+        run: just verify-charts-updated
