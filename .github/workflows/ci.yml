@@ -11,6 +11,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Environment
+        uses: MathTrail/core/.github/actions/setup-env@v1
+
       - name: Run just update
         run: just update
 
