@@ -9,7 +9,7 @@ entries:
       artifacthub.io/prerelease: "false"
     apiVersion: v2
     appVersion: 2.8.1
-    created: "2026-02-21T03:40:05.99347641Z"
+    created: "2026-02-21T23:02:17.956833221Z"
     description: Chaos Mesh is a cloud-native Chaos Engineering platform that orchestrates
       chaos on Kubernetes environments.
     digest: 27d3411c18c15eb55e40b4c5255a06d7a6f8d97b722f58faae0255fe5c894f4b
@@ -41,7 +41,7 @@ entries:
   dapr:
   - apiVersion: v2
     appVersion: 1.16.9
-    created: "2026-02-21T03:40:06.006916507Z"
+    created: "2026-02-21T23:02:17.97225834Z"
     dependencies:
     - name: dapr_rbac
       repository: file://dapr_rbac
@@ -74,7 +74,7 @@ entries:
   external-secrets:
   - apiVersion: v2
     appVersion: v2.0.1
-    created: "2026-02-21T03:40:06.038638896Z"
+    created: "2026-02-21T23:02:18.015148961Z"
     dependencies:
     - condition: bitwarden-sdk-server.enabled
       name: bitwarden-sdk-server
@@ -99,19 +99,62 @@ entries:
   github-runner:
   - apiVersion: v2
     appVersion: latest
-    created: "2026-02-21T03:40:06.047671422Z"
+    created: "2026-02-21T23:02:18.023076519Z"
     description: GitHub Actions self-hosted runner for MathTrail CI/CD (BuildKit +
       Buildah)
-    digest: 6290d1578e21b2e49c21eb8a609fa546b6a65a4f435f85ac0f570b17871ab751
+    digest: cadf0a1454f8ed843c5c6771aaee35f67201c0ff3a1d52ea9d4c04aa1f2a609c
     name: github-runner
     type: application
     urls:
     - https://MathTrail.github.io/charts/charts/github-runner-0.2.8.tgz
     version: 0.2.8
+  grafana:
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/links: |
+        - name: Chart Source
+          url: https://github.com/grafana/helm-charts
+        - name: Upstream Project
+          url: https://github.com/grafana/grafana
+    apiVersion: v2
+    appVersion: 12.3.1
+    created: "2026-02-21T23:02:18.039897207Z"
+    deprecated: true
+    description: The leading tool for querying and visualizing time series and metrics.
+    digest: c08c87969270402e7d5227edb8385af67cc32ee34817bff89773ad02303b5d79
+    home: https://grafana.com
+    icon: https://artifacthub.io/image/b4fed1a7-6c8f-4945-b99d-096efa3e4116
+    keywords:
+    - monitoring
+    - metric
+    kubeVersion: ^1.8.0-0
+    maintainers:
+    - email: zanhsieh@gmail.com
+      name: zanhsieh
+    - email: rluckie@cisco.com
+      name: rtluckie
+    - email: maor.friedman@redhat.com
+      name: maorfr
+    - email: miroslav.hadzhiev@gmail.com
+      name: Xtigyro
+    - email: mail@torstenwalter.de
+      name: torstenwalter
+    - email: github@jkroepke.de
+      name: jkroepke
+    - email: quentin.bisson@gmail.com
+      name: QuentinBisson
+    name: grafana
+    sources:
+    - https://github.com/grafana/grafana
+    - https://github.com/grafana/helm-charts
+    type: application
+    urls:
+    - https://MathTrail.github.io/charts/charts/grafana-10.5.15.tgz
+    version: 10.5.15
   hydra:
   - apiVersion: v2
     appVersion: v25.4.0
-    created: "2026-02-21T03:40:06.059975964Z"
+    created: "2026-02-21T23:02:18.058246703Z"
     dependencies:
     - alias: ory
       name: ory-commons
@@ -149,7 +192,7 @@ entries:
   k6-operator:
   - apiVersion: v1
     appVersion: 1.2.0
-    created: "2026-02-21T03:40:06.070315902Z"
+    created: "2026-02-21T23:02:18.075898701Z"
     description: A Helm chart to install the k6-operator
     digest: 59092761e2fdd26c4069a87b3953b1963be5a6d369b91d09a0f092e37b22be17
     home: https://k6.io
@@ -174,9 +217,9 @@ entries:
   k6-test-runner:
   - apiVersion: v2
     appVersion: 0.54.0
-    created: "2026-02-21T03:40:06.077972932Z"
+    created: "2026-02-21T23:02:18.083981968Z"
     description: Universal k6 load test runner for MathTrail services
-    digest: 4aa10a97765801489a6543ca4ed31ed6e61328e5db16e398ffeb111d3e3180cc
+    digest: 8b11afea2128e3c14b80f10e4ff2fcf41c784e46f2c08a7ddde5e863dbc2279b
     name: k6-test-runner
     type: application
     urls:
@@ -185,7 +228,7 @@ entries:
   k8s-monitoring:
   - apiVersion: v2
     appVersion: 3.8.0
-    created: "2026-02-21T03:40:06.206230236Z"
+    created: "2026-02-21T23:02:18.193931816Z"
     dependencies:
     - alias: annotationAutodiscovery
       condition: annotationAutodiscovery.enabled
@@ -273,7 +316,7 @@ entries:
   kafka-ui:
   - apiVersion: v2
     appVersion: v1.2.0
-    created: "2026-02-21T03:40:06.215800375Z"
+    created: "2026-02-21T23:02:18.20283466Z"
     description: A Helm chart for kafka-UI
     digest: de3d18b106cc2c175be965164f9d23de89735101bd703c985a8480638f4b7283
     icon: https://raw.githubusercontent.com/kafbat/kafka-ui/main/documentation/images/logo_new.png
@@ -287,7 +330,7 @@ entries:
   keto:
   - apiVersion: v2
     appVersion: v25.4.0
-    created: "2026-02-21T03:40:06.226287038Z"
+    created: "2026-02-21T23:02:18.213250535Z"
     dependencies:
     - alias: ory
       name: ory-commons
@@ -319,7 +362,7 @@ entries:
   kratos:
   - apiVersion: v2
     appVersion: v25.4.0
-    created: "2026-02-21T03:40:06.23880518Z"
+    created: "2026-02-21T23:02:18.225466568Z"
     dependencies:
     - alias: ory
       name: ory-commons
@@ -333,21 +376,87 @@ entries:
     urls:
     - https://MathTrail.github.io/charts/charts/kratos-0.60.1.tgz
     version: 0.60.1
+  loki:
+  - apiVersion: v2
+    appVersion: 3.6.5
+    created: "2026-02-21T23:02:18.270101074Z"
+    dependencies:
+    - alias: minio
+      condition: minio.enabled
+      name: minio
+      repository: https://charts.min.io/
+      version: 5.4.0
+    - alias: grafana-agent-operator
+      condition: monitoring.selfMonitoring.grafanaAgent.installOperator
+      name: grafana-agent-operator
+      repository: https://grafana.github.io/helm-charts
+      version: 0.5.2
+    - alias: rollout_operator
+      condition: rollout_operator.enabled
+      name: rollout-operator
+      repository: https://grafana.github.io/helm-charts
+      version: 0.41.0
+    description: Helm chart for Grafana Loki and Grafana Enterprise Logs supporting
+      monolithic, simple scalable, and microservices modes.
+    digest: 3a9dfcbbc5cca62c1a908793e9ae3efd4ce7efc99248233a728dc70abad948ce
+    home: https://grafana.github.io/helm-charts
+    icon: https://grafana.com/docs/loki/latest/logo_and_name.png
+    maintainers:
+    - name: trevorwhitney
+    - name: jeschkies
+    name: loki
+    sources:
+    - https://github.com/grafana/loki
+    - https://grafana.com/oss/loki/
+    - https://grafana.com/docs/loki/latest/
+    type: application
+    urls:
+    - https://MathTrail.github.io/charts/charts/loki-6.53.0.tgz
+    version: 6.53.0
   mathtrail-service-lib:
   - apiVersion: v2
-    created: "2026-02-21T03:40:06.247084802Z"
+    created: "2026-02-21T23:02:18.285850007Z"
     description: 'Library Helm Chart for MathTrail microservices. Provides reusable
       templates. '
-    digest: 592c1e3c55b0de99c8aae6bf0fd4a19c3ef196b1b683de04d6f8a7908eb36d5a
+    digest: 87d7a83fa65627952d9f04ae59fd590301c9278f991f2fa4edc023f90f67776f
     name: mathtrail-service-lib
     type: library
     urls:
     - https://MathTrail.github.io/charts/charts/mathtrail-service-lib-0.1.3.tgz
     version: 0.1.3
+  mimir-distributed:
+  - apiVersion: v2
+    appVersion: 3.0.1
+    created: "2026-02-21T23:02:18.360475858Z"
+    dependencies:
+    - alias: minio
+      condition: minio.enabled
+      name: minio
+      repository: https://charts.min.io/
+      version: 5.4.0
+    - alias: grafana-agent-operator
+      condition: metaMonitoring.grafanaAgent.installOperator
+      name: grafana-agent-operator
+      repository: https://grafana.github.io/helm-charts
+      version: 0.5.1
+    - alias: rollout_operator
+      condition: rollout_operator.enabled
+      name: rollout-operator
+      repository: https://grafana.github.io/helm-charts
+      version: 0.37.1
+    description: Grafana Mimir
+    digest: 371b91d285fba5d3d56b1aba595d68821d43e6740378fb75b4c0142b4d7db638
+    home: https://grafana.com/docs/helm-charts/mimir-distributed/latest/
+    icon: https://grafana.com/static/img/logos/logo-mimir.svg
+    kubeVersion: ^1.29.0-0
+    name: mimir-distributed
+    urls:
+    - https://MathTrail.github.io/charts/charts/mimir-distributed-6.0.5.tgz
+    version: 6.0.5
   oathkeeper:
   - apiVersion: v2
     appVersion: v25.4.0
-    created: "2026-02-21T03:40:06.260701752Z"
+    created: "2026-02-21T23:02:18.379874782Z"
     dependencies:
     - alias: oathkeeper-maester
       condition: maester.enabled
@@ -382,7 +491,7 @@ entries:
   opentelemetry-collector:
   - apiVersion: v2
     appVersion: 0.145.0
-    created: "2026-02-21T03:40:06.273570198Z"
+    created: "2026-02-21T23:02:18.399379474Z"
     description: OpenTelemetry Collector Helm chart for Kubernetes
     digest: 6fcc59ac0d48edf35122994a707929c97ad8c26baf4161b3ac5460adf163bac8
     home: https://opentelemetry.io/
@@ -416,7 +525,7 @@ entries:
       tanzuCategory: service
     apiVersion: v2
     appVersion: 18.2.0
-    created: "2026-02-21T03:40:06.295829042Z"
+    created: "2026-02-21T23:02:18.425681129Z"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -448,7 +557,7 @@ entries:
   pyroscope:
   - apiVersion: v2
     appVersion: 1.18.0
-    created: "2026-02-21T03:40:06.33094378Z"
+    created: "2026-02-21T23:02:18.459798305Z"
     dependencies:
     - alias: agent
       condition: agent.enabled
@@ -500,7 +609,7 @@ entries:
       tanzuCategory: service
     apiVersion: v2
     appVersion: 8.6.0
-    created: "2026-02-21T03:40:06.359564977Z"
+    created: "2026-02-21T23:02:18.491085724Z"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -529,7 +638,7 @@ entries:
   strimzi-kafka-operator:
   - apiVersion: v2
     appVersion: 0.50.1
-    created: "2026-02-21T03:40:06.395712551Z"
+    created: "2026-02-21T23:02:18.533091442Z"
     description: 'Strimzi: Apache Kafka running on Kubernetes'
     digest: 570b882d8302899f1584fa87c09761c7c073f27ef09d5adcfa944647f642e8e0
     home: https://strimzi.io/
@@ -557,7 +666,7 @@ entries:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 2.26.2
-    created: "2026-02-21T03:40:06.435558607Z"
+    created: "2026-02-21T23:02:18.592025513Z"
     description: A chart for deploying the server-side components of Telepresence
     digest: 92647e39e46a93891ac6bc11880a608eea0a3d052ca1bbd4199207ab92d52745
     icon: https://raw.githubusercontent.com/telepresenceio/telepresence.io/master/src/assets/images/telepresence-edgy.svg
@@ -572,12 +681,39 @@ entries:
     urls:
     - https://MathTrail.github.io/charts/charts/telepresence-oss-2.26.2.tgz
     version: 2.26.2
+  tempo:
+  - apiVersion: v2
+    appVersion: 2.9.0
+    created: "2026-02-21T23:02:18.604822373Z"
+    deprecated: true
+    description: Grafana Tempo Single Binary Mode
+    digest: f1f6e318d5bca3b5097cb676077796cdf8135beb2c1f71c4d14614ccf9b0081b
+    home: https://grafana.net
+    icon: https://raw.githubusercontent.com/grafana/tempo/master/docs/tempo/website/logo_and_name.png
+    maintainers:
+    - email: number101010@gmail.com
+      name: joe-elliott
+    - email: 9215868@gmail.com
+      name: swartz-k
+    - name: annanay25
+    - name: mdisibio
+    - name: dgzlopes
+    - name: mapno
+    - email: sheikhabubaker761@gmail.com
+      name: Sheikh-Abubaker
+    name: tempo
+    sources:
+    - https://github.com/grafana/tempo
+    type: application
+    urls:
+    - https://MathTrail.github.io/charts/charts/tempo-1.24.4.tgz
+    version: 1.24.4
   vault:
   - annotations:
       charts.openshift.io/name: HashiCorp Vault
     apiVersion: v2
     appVersion: 1.21.2
-    created: "2026-02-21T03:40:06.454741652Z"
+    created: "2026-02-21T23:02:18.62464733Z"
     description: Official HashiCorp Vault Chart
     digest: e31ddf3f6dd031c0f5407dd6b63361ea5ff655f89c781049b39f4c2a95a6f88a
     home: https://www.vaultproject.io
@@ -600,4 +736,4 @@ entries:
     urls:
     - https://MathTrail.github.io/charts/charts/vault-0.32.0.tgz
     version: 0.32.0
-generated: "2026-02-21T03:40:05.93637298Z"
+generated: "2026-02-21T23:02:17.891279145Z"

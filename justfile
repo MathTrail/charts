@@ -49,6 +49,10 @@ update:
     pull_chart oathkeeper ory/oathkeeper
 
     echo "📥 Pulling Observability (LGTM + OTel) charts..."
+    pull_chart grafana grafana/grafana
+    pull_chart loki grafana/loki
+    pull_chart tempo grafana/tempo
+    pull_chart mimir-distributed grafana/mimir-distributed
     pull_chart k6-operator grafana/k6-operator
     pull_chart k8s-monitoring grafana/k8s-monitoring
     pull_chart opentelemetry-collector open-telemetry/opentelemetry-collector
