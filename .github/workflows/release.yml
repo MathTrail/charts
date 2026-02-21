@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Environment
-        uses: MathTrail/core/.github/actions/setup-env@v1.0.4
+        uses: MathTrail/core/.github/actions/setup-env@v1.0.5
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
