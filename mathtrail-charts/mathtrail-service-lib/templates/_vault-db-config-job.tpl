@@ -112,7 +112,7 @@ spec:
               export VAULT_TOKEN
               echo "Authenticated to Vault as role=${VAULT_ROLE}"
 
-              # ── Step 3: Configure database connection ──
+              # ── Step 2: Configure database connection ──
               # {{ "{{username}}" }} / {{ "{{password}}" }} — Vault engine placeholders;
               # Helm-escaped so they survive template rendering as literal strings.
               echo "Configuring database connection ${CONN_NAME}..."
@@ -130,7 +130,7 @@ spec:
                 "${VAULT_ADDR}/v1/database/config/${CONN_NAME}" 2>&1 | grep "HTTP/" | tail -1 | awk '{print $2}')
               echo "database/config status: ${HTTP_STATUS}"
 
-              # ── Step 4: Configure dynamic role ──
+              # ── Step 3: Configure dynamic role ──
               echo "Configuring role ${ROLE_NAME}..."
               HTTP_STATUS=$(wget -qO- \
                 --server-response \
