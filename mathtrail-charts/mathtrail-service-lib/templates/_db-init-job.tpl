@@ -1,7 +1,8 @@
 {{/*
 =======================================================================
   mathtrail-service-lib :: _db-init-job.tpl
-  Database initialisation Job — runs as a Helm post-install/post-upgrade hook.
+  Database initialisation Job — runs as a Helm pre-install/pre-upgrade hook
+  (weight 0, before migration weight 5).
   Creates the service's PostgreSQL database(s), sets up the pgbouncer
   lookup_user SECURITY DEFINER function, and (optionally) grants default
   privileges required by the Vault Database Secrets Engine.
@@ -40,8 +41,8 @@ metadata:
     {{- include "mathtrail-service-lib.labels" . | nindent 4 }}
     app.kubernetes.io/component: db-init
   annotations:
-    "helm.sh/hook": post-install,post-upgrade
-    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "0"
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:
   backoffLimit: 5
