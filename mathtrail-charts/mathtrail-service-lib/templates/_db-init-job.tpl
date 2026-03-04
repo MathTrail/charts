@@ -26,7 +26,10 @@
 */}}
 
 {{- define "mathtrail-service-lib.dbInitJob" -}}
-{{- $databases := dig "db" "databases" (list) .Values -}}
+{{- /* .Values is common.Values (not map[string]interface{}), so dig cannot be called on it directly.
+       Convert via toJson|fromJson to get a plain map that dig accepts. */}}
+{{- $v := .Values | toJson | fromJson -}}
+{{- $databases := dig "db" "databases" (list) $v -}}
 {{- if $databases -}}
 apiVersion: batch/v1
 kind: Job
@@ -63,7 +66,7 @@ spec:
                   name: postgres-postgresql
                   key: postgres-password
             - name: APP_USER
-              value: {{ dig "db" "appUser" "mathtrail" .Values | quote }}
+              value: {{ dig "db" "appUser" "mathtrail" $v | quote }}
           command: ["/bin/bash", "-c"]
           args:
             - |
