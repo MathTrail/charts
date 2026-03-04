@@ -55,7 +55,7 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: db-init
-          image: bitnami/postgresql:16
+          image: {{ dig "db" "initImage" "postgres:16-alpine" $v }}
           env:
             - name: PGHOST
               value: postgres-postgresql
