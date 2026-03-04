@@ -76,6 +76,19 @@ spec:
               until pg_isready -h "$PGHOST" -U "$PGUSER" -q; do
                 echo "Waiting for postgres..." && sleep 2
               done
+
+              # Ensure pgbouncer_auth role exists. Idempotent: safe if already created
+              # by Bitnami initdb script. Created here to avoid race condition where
+              # pg_isready passes during Bitnami's temporary startup before initdb scripts run.
+              psql -d postgres -c "
+                DO \$\$
+                BEGIN
+                  IF NOT EXISTS (SELECT FROM pg_roles WHERE rolname = 'pgbouncer_auth') THEN
+                    CREATE ROLE pgbouncer_auth WITH LOGIN PASSWORD 'pgbouncer_auth_pass';
+                  END IF;
+                END \$\$;
+              "
+
               {{ range $databases }}
               echo "=== Initializing database: {{ .name }} ==="
 
