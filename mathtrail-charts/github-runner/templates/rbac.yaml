@@ -36,6 +36,10 @@ rules:
   - apiGroups: ["external-secrets.io"]
     resources: ["externalsecrets", "clustersecretstores", "secretstores", "pushsecrets"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  # Vault Config Operator CRDs
+  - apiGroups: ["redhatcop.redhat.io"]
+    resources: ["databasesecretengineconfigs", "databasesecretengineroles", "kubernetesauthengineroles", "policies"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
   # Events (for waiting/watching)
   - apiGroups: [""]
     resources: ["events"]
