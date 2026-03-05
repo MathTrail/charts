@@ -32,6 +32,10 @@ rules:
   - apiGroups: ["policy"]
     resources: ["poddisruptionbudgets"]
     verbs: ["create", "delete", "get", "list", "watch", "patch", "update"]
+  # External Secrets (ExternalSecret + PushSecret)
+  - apiGroups: ["external-secrets.io"]
+    resources: ["externalsecrets", "clustersecretstores", "secretstores", "pushsecrets"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
   # Events (for waiting/watching)
   - apiGroups: [""]
     resources: ["events"]
