@@ -26,6 +26,7 @@ update:
     helm repo add douban https://douban.github.io/charts/ 2>/dev/null || true
     helm repo add jetstack https://charts.jetstack.io 2>/dev/null || true
     helm repo add argo https://argoproj.github.io/argo-helm 2>/dev/null || true
+    helm repo add traefik https://traefik.github.io/charts 2>/dev/null || true
 
     helm repo update
 
@@ -68,6 +69,7 @@ update:
 
     echo "📥 Pulling GitOps..."
     pull_chart argo-cd argo/argo-cd
+    pull_chart traefik traefik/traefik
 
     echo "📥 Pulling Chaos Engineering..."
     pull_chart chaos-mesh chaos-mesh/chaos-mesh
