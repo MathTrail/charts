@@ -20,9 +20,13 @@
 
   Notes:
   - Connects to postgres as superuser; reads password from K8s Secret
-    postgres-postgresql (key: postgres-password), created by Bitnami chart.
+    named after db.postgresHost (key: postgres-password), created by Bitnami chart.
   - Idempotent: safe to re-run on helm upgrade.
   - Databases are NOT dropped on helm uninstall (intentional — preserves data).
+  - PostgreSQL 15+: GRANT CREATE ON SCHEMA public is issued per database
+    (PG15 removed the default CREATE privilege from the public schema).
+  - db.postgresHost: optional, default postgres-postgresql. Override when using
+    a dedicated postgres instance (e.g. mentor-postgres-postgresql).
 =======================================================================
 */}}
 
@@ -31,6 +35,7 @@
        Convert via toJson|fromJson to get a plain map that dig accepts. */}}
 {{- $v := .Values | toJson | fromJson -}}
 {{- $databases := dig "db" "databases" (list) $v -}}
+{{- $postgresHost := dig "db" "postgresHost" "postgres-postgresql" $v -}}
 {{- if $databases -}}
 apiVersion: batch/v1
 kind: Job
@@ -58,13 +63,13 @@ spec:
           image: {{ dig "db" "initImage" "postgres:16-alpine" $v }}
           env:
             - name: PGHOST
-              value: postgres-postgresql
+              value: {{ $postgresHost }}
             - name: PGUSER
               value: postgres
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-postgresql
+                  name: {{ $postgresHost }}
                   key: postgres-password
             - name: APP_USER
               value: {{ dig "db" "appUser" "mathtrail" $v | quote }}
@@ -101,6 +106,11 @@ spec:
               # Grant app user access
               psql -d postgres -c \
                 "GRANT ALL PRIVILEGES ON DATABASE \"{{ .name }}\" TO \"$APP_USER\";"
+
+              # PostgreSQL 15+ removed the default CREATE privilege on the public schema.
+              # GRANT ALL ON DATABASE is no longer sufficient — explicit schema grant required.
+              psql -d "{{ .name }}" -c \
+                "GRANT CREATE ON SCHEMA public TO \"$APP_USER\";"
 
               # pgbouncer auth: lookup_user SECURITY DEFINER function
               # ALTER FUNCTION OWNER ensures the function always runs as postgres,
