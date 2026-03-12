@@ -77,6 +77,22 @@ update:
     echo "📥 Pulling Kafka Management..."
     pull_chart kafka-ui douban/kafka-ui
 
+    echo "📥 Pulling Streaming Infrastructure..."
+    helm repo add redpanda https://charts.redpanda.com/ 2>/dev/null || true
+    helm repo update
+    rm -f ./charts/apicurio-registry-*.tgz
+    helm pull oci://ghcr.io/eshepelyuk/helm/apicurio-registry --destination ./charts
+    pull_chart minio bitnami/minio
+    pull_chart redpanda-console redpanda/console
+
+    echo "📥 Pulling Flink Kubernetes Operator..."
+    FLINK_TAG=$(curl -s https://api.github.com/repos/apache/flink-kubernetes-operator/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+    FLINK_VERSION=$(echo $FLINK_TAG | sed 's/release-//')
+    echo "Detected latest version: $FLINK_VERSION"
+    rm -f ./charts/flink-kubernetes-operator-*.tgz
+    curl -L "https://downloads.apache.org/flink/flink-kubernetes-operator-${FLINK_VERSION}/flink-kubernetes-operator-${FLINK_VERSION}-helm.tgz" \
+        -o "./charts/flink-kubernetes-operator-${FLINK_VERSION}.tgz"
+
     echo "📥 Pulling Development Tools..."
     rm -f ./charts/telepresence-*.tgz
     helm pull oci://ghcr.io/telepresenceio/telepresence-oss --destination ./charts
