@@ -79,10 +79,11 @@ update:
 
     echo "📥 Pulling Streaming Infrastructure..."
     helm repo add redpanda https://charts.redpanda.com/ 2>/dev/null || true
+    helm repo add seaweedfs https://seaweedfs.github.io/seaweedfs/helm 2>/dev/null || true
     helm repo update
     rm -f ./charts/apicurio-registry-*.tgz
     helm pull oci://ghcr.io/eshepelyuk/helm/apicurio-registry --destination ./charts
-    pull_chart minio bitnami/minio
+    pull_chart seaweedfs seaweedfs/seaweedfs
     pull_chart redpanda-console redpanda/console
 
     echo "📥 Pulling Flink Kubernetes Operator..."
