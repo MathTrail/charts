@@ -12,7 +12,7 @@ replicaCount: 1
 image:
   # repository: ""  # REQUIRED — validated via fail()
   repository: ""
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # tag: ""  # Falls back to .Chart.AppVersion if not set
   tag: ""
 
