@@ -78,13 +78,11 @@ update:
     pull_chart kafka-ui douban/kafka-ui
 
     echo "📥 Pulling Streaming Infrastructure..."
-    helm repo add redpanda https://charts.redpanda.com/ 2>/dev/null || true
     helm repo add seaweedfs https://seaweedfs.github.io/seaweedfs/helm 2>/dev/null || true
     helm repo update
     rm -f ./charts/apicurio-registry-*.tgz
     helm pull oci://ghcr.io/eshepelyuk/helm/apicurio-registry --destination ./charts
     pull_chart seaweedfs seaweedfs/seaweedfs
-    pull_chart redpanda-console redpanda/console
 
     echo "📥 Pulling Flink Kubernetes Operator..."
     FLINK_TAG=$(curl -s https://api.github.com/repos/apache/flink-kubernetes-operator/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
