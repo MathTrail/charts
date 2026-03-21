@@ -85,8 +85,7 @@ update:
     pull_chart seaweedfs seaweedfs/seaweedfs
 
     echo "📥 Pulling Flink Kubernetes Operator..."
-    FLINK_TAG=$(curl -s https://api.github.com/repos/apache/flink-kubernetes-operator/releases/latest | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
-    FLINK_VERSION=$(echo $FLINK_TAG | sed 's/release-//')
+    FLINK_VERSION=$(curl -s "https://downloads.apache.org/flink/" | grep -oP 'flink-kubernetes-operator-\K[\d.]+(?=/)' | sort -V | tail -1)
     echo "Detected latest version: $FLINK_VERSION"
     rm -f ./charts/flink-kubernetes-operator-*.tgz
     curl -L "https://downloads.apache.org/flink/flink-kubernetes-operator-${FLINK_VERSION}/flink-kubernetes-operator-${FLINK_VERSION}-helm.tgz" \
