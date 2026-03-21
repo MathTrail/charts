@@ -81,7 +81,7 @@ update:
     helm repo add seaweedfs https://seaweedfs.github.io/seaweedfs/helm 2>/dev/null || true
     helm repo update
     rm -f ./charts/apicurio-registry-*.tgz
-    helm pull oci://ghcr.io/eshepelyuk/helm/apicurio-registry --destination ./charts
+    helm package ./mathtrail-charts/apicurio-registry --destination ./charts
     pull_chart seaweedfs seaweedfs/seaweedfs
 
     echo "📥 Pulling Flink Kubernetes Operator..."
@@ -108,7 +108,7 @@ update:
 
     echo "📦 Generating Helm repo index..."
     helm repo index ./charts --url {{ repo_url }}/charts
-    
+
     echo "✅ All charts updated successfully!"
     echo ""
     echo "📊 Charts available:"
