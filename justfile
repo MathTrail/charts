@@ -109,9 +109,6 @@ update:
     echo "📦 Generating Helm repo index..."
     helm repo index ./charts --url {{ repo_url }}/charts
 
-    echo "📋 Syncing packaged charts to local dependent repos..."
-    cp ./charts/apicurio-registry-*.tgz ../infra-streaming/infra/local/helm/apicurio/charts/
-
     echo "✅ All charts updated successfully!"
     echo ""
     echo "📊 Charts available:"
