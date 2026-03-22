@@ -14,7 +14,7 @@ update:
 
     echo "📦 Updating Helm repositories..."
     helm repo add bitnami https://charts.bitnami.com/bitnami 2>/dev/null || true
-    helm repo add strimzi https://strimzi.io/charts/ 2>/dev/null || true
+    helm repo add risingwave https://risingwavelabs.github.io/helm-charts 2>/dev/null || true
     helm repo add grafana https://grafana.github.io/helm-charts 2>/dev/null || true
     helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts 2>/dev/null || true
     helm repo add datawire https://app.getambassador.io 2>/dev/null || true
@@ -42,7 +42,7 @@ update:
     echo "📥 Pulling Infrastructure charts..."
     pull_chart postgresql bitnami/postgresql
     pull_chart redis bitnami/redis
-    pull_chart strimzi-kafka-operator strimzi/strimzi-kafka-operator
+    pull_chart minio bitnami/minio
 
     echo "📥 Pulling Identity (Ory) charts..."
     pull_chart kratos ory/kratos
@@ -78,18 +78,16 @@ update:
     pull_chart kafka-ui douban/kafka-ui
 
     echo "📥 Pulling Streaming Infrastructure..."
-    helm repo add seaweedfs https://seaweedfs.github.io/seaweedfs/helm 2>/dev/null || true
     helm repo update
     rm -f ./charts/apicurio-registry-*.tgz
     helm package ./mathtrail-charts/apicurio-registry --destination ./charts
-    pull_chart seaweedfs seaweedfs/seaweedfs
 
-    echo "📥 Pulling Flink Kubernetes Operator..."
-    FLINK_VERSION=$(curl -s "https://downloads.apache.org/flink/" | grep -oP 'flink-kubernetes-operator-\K[\d.]+(?=/)' | sort -V | tail -1)
-    echo "Detected latest version: $FLINK_VERSION"
-    rm -f ./charts/flink-kubernetes-operator-*.tgz
-    curl -L "https://downloads.apache.org/flink/flink-kubernetes-operator-${FLINK_VERSION}/flink-kubernetes-operator-${FLINK_VERSION}-helm.tgz" \
-        -o "./charts/flink-kubernetes-operator-${FLINK_VERSION}.tgz"
+    echo "📥 Pulling AutoMQ (Bitnami Kafka chart + AutoMQ image override)..."
+    rm -f ./charts/kafka-*.tgz
+    helm pull oci://registry-1.docker.io/bitnamicharts/kafka --destination ./charts
+
+    echo "📥 Pulling RisingWave (CDC + stream processing)..."
+    pull_chart risingwave risingwave/risingwave
 
     echo "📥 Pulling Development Tools..."
     rm -f ./charts/telepresence-*.tgz
