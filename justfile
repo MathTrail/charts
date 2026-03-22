@@ -14,7 +14,6 @@ update:
 
     echo "📦 Updating Helm repositories..."
     helm repo add bitnami https://charts.bitnami.com/bitnami 2>/dev/null || true
-    helm repo add automq https://charts.automq.com 2>/dev/null || true
     helm repo add risingwave https://risingwavelabs.github.io/helm-charts 2>/dev/null || true
     helm repo add grafana https://grafana.github.io/helm-charts 2>/dev/null || true
     helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts 2>/dev/null || true
@@ -83,8 +82,9 @@ update:
     rm -f ./charts/apicurio-registry-*.tgz
     helm package ./mathtrail-charts/apicurio-registry --destination ./charts
 
-    echo "📥 Pulling AutoMQ (Kafka-compatible, S3-tiered storage)..."
-    pull_chart automq automq/automq
+    echo "📥 Pulling AutoMQ (Bitnami Kafka chart + AutoMQ image override)..."
+    rm -f ./charts/kafka-*.tgz
+    helm pull oci://registry-1.docker.io/bitnamicharts/kafka --destination ./charts
 
     echo "📥 Pulling RisingWave (CDC + stream processing)..."
     pull_chart risingwave risingwave/risingwave
