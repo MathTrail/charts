@@ -183,6 +183,68 @@ schemaRegistration:
       cpu: "200m"
       memory: "128Mi"
 
+# -- RisingWave CDC Job (runs AFTER deployment, post-install/post-upgrade)
+# Decentralized CDC pipeline — each service owns its own CDC setup.
+# The Job has three steps:
+#   1. initContainer: cdc-pg-setup  — creates PUBLICATION + replication slot in source PG
+#   2. initContainer: render-sql    — envsubst renders ${ENV_VAR} placeholders in SQL
+#   3. main container: risingwave-sql — executes rendered SQL against RisingWave
+#
+# IMPORTANT: Credentials secrets (pgSource.credentialsSecret, automq.credentialsSecret)
+#   must be created in the same namespace as this chart before the Job runs.
+#   Typically done via VSO VaultStaticSecret CRs in the service chart.
+#
+# IDEMPOTENCY: CREATE ... IF NOT EXISTS is safe for SOURCE, TABLE, SINK on every upgrade.
+#   CREATE MATERIALIZED VIEW IF NOT EXISTS does NOT support OR REPLACE in RisingWave.
+#   If MV definition changes, manually run: DROP MATERIALIZED VIEW <name> CASCADE
+#   (this also drops dependent SINKs — recreate them afterwards).
+risingwaveCdc:
+  enabled: false
+  hookWeight: "10"    # post hook — runs after deployment
+  pgSource:
+    host: ""          # REQUIRED — hostname of the source PostgreSQL instance
+    port: "5432"
+    database: ""      # REQUIRED — database name
+    credentialsSecret: ""   # REQUIRED — K8s Secret name with 'username' and 'password' keys
+    slotName: ""      # REQUIRED — logical replication slot name (e.g. "risingwave_cdc")
+    publicationName: ""     # REQUIRED — PostgreSQL publication name (e.g. "risingwave_pub")
+    tables: []        # REQUIRED — tables included in the publication
+    # tables:
+    #   - "public.identities"
+    #   - "public.identity_verifiable_addresses"
+  risingwave:
+    host: "risingwave-frontend.streaming.svc.cluster.local"
+    port: "4566"
+    user: "root"
+    database: "dev"
+  automq:
+    bootstrapServer: ""     # REQUIRED — AutoMQ bootstrap server (e.g. "automq.streaming.svc:9092")
+    credentialsSecret: ""   # REQUIRED — K8s Secret name with 'username' and 'password' keys
+  apicurioUrl: ""     # REQUIRED — Apicurio URL for ENCODE PROTOBUF schema resolution
+  sql: ""             # REQUIRED — Full RisingWave SQL (CREATE SOURCE/TABLE/MV/SINK)
+  # sql: |
+  #   CREATE SOURCE IF NOT EXISTS my_pg_cdc WITH (
+  #       connector = 'postgres-cdc',
+  #       hostname  = '${PG_HOST}',
+  #       ...
+  #   );
+  #   CREATE TABLE IF NOT EXISTS my_table (...) FROM my_pg_cdc TABLE 'public.my_table';
+  #   CREATE MATERIALIZED VIEW IF NOT EXISTS my_mv AS SELECT ... FROM my_table;
+  #   CREATE SINK IF NOT EXISTS my_sink FROM my_mv WITH (
+  #       connector = 'kafka',
+  #       properties.bootstrap.server = '${AUTOMQ_BOOTSTRAP_SERVER}',
+  #       ...
+  #   ) FORMAT PLAIN ENCODE PROTOBUF (schema.registry = '${APICURIO_URL}', message = '...');
+  backoffLimit: 10
+  ttlSecondsAfterFinished: 1800
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "64Mi"
+    limits:
+      cpu: "200m"
+      memory: "128Mi"
+
 # -- HPA / Autoscaling
 autoscaling:
   enabled: false

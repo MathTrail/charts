@@ -126,6 +126,36 @@ schemaRegistration:
     limits:
       cpu: "200m"
       memory: "128Mi"
+risingwaveCdc:
+  enabled: false
+  hookWeight: "10"
+  pgSource:
+    host: ""
+    port: "5432"
+    database: ""
+    credentialsSecret: ""
+    slotName: ""
+    publicationName: ""
+    tables: []
+  risingwave:
+    host: "risingwave-frontend.streaming.svc.cluster.local"
+    port: "4566"
+    user: "root"
+    database: "dev"
+  automq:
+    bootstrapServer: ""
+    credentialsSecret: ""
+  apicurioUrl: ""
+  sql: ""
+  backoffLimit: 10
+  ttlSecondsAfterFinished: 1800
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "64Mi"
+    limits:
+      cpu: "200m"
+      memory: "128Mi"
 {{- end -}}
 
 {{/*
