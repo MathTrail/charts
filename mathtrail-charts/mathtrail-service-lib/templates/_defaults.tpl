@@ -111,6 +111,21 @@ vso:
   vaultRole: ""    # defaults to .fullname at template render time
   dbRole: ""       # defaults to "<fullname>-role" at template render time
   secretName: ""   # defaults to "<fullname>-db-secret" at template render time
+schemaRegistration:
+  enabled: false
+  apicurioUrl: ""
+  hookWeight: "8"
+  schemas: []
+  backoffLimit: 3
+  ttlSecondsAfterFinished: 300
+  restartPolicy: OnFailure
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "64Mi"
+    limits:
+      cpu: "200m"
+      memory: "128Mi"
 {{- end -}}
 
 {{/*

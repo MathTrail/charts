@@ -151,6 +151,38 @@ tolerations: []
 volumes: []
 volumeMounts: []
 
+# -- Schema Registration Job (runs BEFORE the deployment, after migrations)
+# Registers Protobuf schemas consumed/produced by this service into Apicurio Registry.
+# Each schema subject is rendered as a file in a ConfigMap and registered via
+# the Confluent compat v7 API (POST /apis/ccompat/v7/subjects/{subject}/versions).
+# HTTP 409 is treated as success (idempotent). Schemas must be self-contained
+# (no import directives) — see template comment for references API details.
+schemaRegistration:
+  enabled: false
+  apicurioUrl: ""  # REQUIRED when enabled — e.g. "http://apicurio-registry.streaming.svc:8080"
+  hookWeight: "8"  # Runs after db-init (0) and migration (5), before Deployment
+  schemas: []
+  # schemas:
+  #   - subject: "students.v1.StudentOnboardingReady"
+  #     # Source: contracts/proto/students/v1/events.proto
+  #     proto: |
+  #       syntax = "proto3";
+  #       package students.v1;
+  #       option go_package = "github.com/mathtrail/contracts/gen/go/students/v1;studentsv1";
+  #       message StudentOnboardingReady {
+  #         string event_id = 1;
+  #       }
+  backoffLimit: 3
+  ttlSecondsAfterFinished: 300
+  restartPolicy: OnFailure
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "64Mi"
+    limits:
+      cpu: "200m"
+      memory: "128Mi"
+
 # -- HPA / Autoscaling
 autoscaling:
   enabled: false
