@@ -27,6 +27,7 @@ update:
     helm repo add jetstack https://charts.jetstack.io 2>/dev/null || true
     helm repo add argo https://argoproj.github.io/argo-helm 2>/dev/null || true
     helm repo add traefik https://traefik.github.io/charts 2>/dev/null || true
+    helm repo add centrifugal https://centrifugal.github.io/helm-charts 2>/dev/null || true
 
     helm repo update
 
@@ -81,6 +82,9 @@ update:
     helm repo update
     rm -f ./charts/apicurio-registry-*.tgz
     helm package ./mathtrail-charts/apicurio-registry --destination ./charts
+
+    echo "📥 Pulling Real-Time Messaging..."
+    pull_chart centrifugo centrifugal/centrifugo
 
     echo "📥 Pulling AutoMQ (Bitnami Kafka chart + AutoMQ image override)..."
     rm -f ./charts/kafka-*.tgz
