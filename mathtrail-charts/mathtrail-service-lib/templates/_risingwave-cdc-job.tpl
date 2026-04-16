@@ -56,7 +56,7 @@ metadata:
     "helm.sh/hook-delete-policy": before-hook-creation
 data:
   setup.sql: |
-{{ $v.risingwaveCdc.sql | indent 4 -}}
+{{ $v.risingwaveCdc.sql | indent 4 }}
 ---
 apiVersion: batch/v1
 kind: Job
