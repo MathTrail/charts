@@ -1,10 +1,7 @@
 {{/*
 =======================================================================
-  mathtrail-service-lib :: _risingwave-cdc-job.tpl
-  RisingWave CDC Job — sets up a domain-owned Change Data Capture pipeline.
-
-  Runs as a post-install/post-upgrade hook so that Kubernetes resources
-  (e.g. Kratos PostgreSQL) are deployed before CDC wiring begins.
+  risingwave-cdc-setup :: risingwave-cdc-job.yaml
+  Sets up a RisingWave CDC pipeline from a PostgreSQL source.
 
   Step 1 — initContainer: cdc-pg-setup
     Connects to the source PostgreSQL database and idempotently creates:
@@ -25,80 +22,71 @@
     • CREATE SOURCE/TABLE/SINK IF NOT EXISTS — safe on every upgrade.
     • CREATE MATERIALIZED VIEW IF NOT EXISTS — safe, but NOT replaceable.
       If the MV definition changes, a manual DROP MATERIALIZED VIEW ... CASCADE
-      is required first (which also drops dependent SINKs). Document this
-      constraint in the service's values.yaml.
+      is required first (which also drops dependent SINKs).
 
   Credentials:
-    The library template references K8s Secrets by name only — it does not
-    create them. Each service is responsible for provisioning:
+    This chart references K8s Secrets by name only — it does not create them.
+    The deploying service is responsible for provisioning:
       • pgSource.credentialsSecret  — Secret with 'username' and 'password' keys
       • automq.credentialsSecret    — Secret with 'username' and 'password' keys
-    Typically created via VSO VaultStaticSecret CRs in the service chart.
-    If the Secret does not exist when the Job starts, the Pod will fail with
-    CreateContainerConfigError and retry (backoffLimit handles this).
 =======================================================================
 */}}
-
-{{- define "mathtrail-service-lib.risingwaveCdcJob" -}}
-{{- $v := include "mathtrail-service-lib.mergedValues" . | fromYaml }}
-{{- if $v.risingwaveCdc.enabled }}
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "mathtrail-service-lib.fullname" . }}-rw-cdc-sql
+  name: {{ include "risingwave-cdc-setup.fullname" . }}-rw-cdc-sql
   labels:
-    {{- include "mathtrail-service-lib.labels" . | nindent 4 }}
+    {{- include "risingwave-cdc-setup.labels" . | nindent 4 }}
     app.kubernetes.io/component: risingwave-cdc
   annotations:
     "helm.sh/hook": post-install,post-upgrade
-    "helm.sh/hook-weight": {{ $v.risingwaveCdc.hookWeight | quote }}
+    "helm.sh/hook-weight": {{ .Values.hookWeight | quote }}
     "helm.sh/hook-delete-policy": before-hook-creation
 data:
   setup.sql: |
-{{ $v.risingwaveCdc.sql | indent 4 }}
+{{ .Values.sql | indent 4 }}
 ---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "mathtrail-service-lib.fullname" . }}-rw-cdc-setup
+  name: {{ include "risingwave-cdc-setup.fullname" . }}-rw-cdc-setup
   labels:
-    {{- include "mathtrail-service-lib.labels" . | nindent 4 }}
+    {{- include "risingwave-cdc-setup.labels" . | nindent 4 }}
     app.kubernetes.io/component: risingwave-cdc
   annotations:
     "helm.sh/hook": post-install,post-upgrade
-    "helm.sh/hook-weight": {{ $v.risingwaveCdc.hookWeight | quote }}
+    "helm.sh/hook-weight": {{ .Values.hookWeight | quote }}
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:
-  backoffLimit: {{ $v.risingwaveCdc.backoffLimit }}
-  ttlSecondsAfterFinished: {{ $v.risingwaveCdc.ttlSecondsAfterFinished }}
+  backoffLimit: {{ .Values.backoffLimit }}
+  ttlSecondsAfterFinished: {{ .Values.ttlSecondsAfterFinished }}
   template:
     metadata:
       labels:
-        {{- include "mathtrail-service-lib.selectorLabels" . | nindent 8 }}
+        {{- include "risingwave-cdc-setup.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: risingwave-cdc
     spec:
       restartPolicy: OnFailure
       initContainers:
         # Step 1: Create PostgreSQL publication and replication slot (idempotent).
         - name: cdc-pg-setup
-          image: bitnami/postgresql:16
+          image: {{ .Values.pgClientImage }}
           env:
             - name: PGHOST
-              value: {{ $v.risingwaveCdc.pgSource.host | quote }}
+              value: {{ .Values.pgSource.host | quote }}
             - name: PGPORT
-              value: {{ $v.risingwaveCdc.pgSource.port | quote }}
+              value: {{ .Values.pgSource.port | quote }}
             - name: PGDATABASE
-              value: {{ $v.risingwaveCdc.pgSource.database | quote }}
+              value: {{ .Values.pgSource.database | quote }}
             - name: PGUSER
               valueFrom:
                 secretKeyRef:
-                  name: {{ $v.risingwaveCdc.pgSource.credentialsSecret | quote }}
+                  name: {{ .Values.pgSource.credentialsSecret | quote }}
                   key: username
             - name: PGPASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ $v.risingwaveCdc.pgSource.credentialsSecret | quote }}
+                  name: {{ .Values.pgSource.credentialsSecret | quote }}
                   key: password
           command:
             - bash
@@ -110,8 +98,8 @@ spec:
               psql -c "
                 DO \$\$
                 BEGIN
-                  CREATE PUBLICATION {{ $v.risingwaveCdc.pgSource.publicationName }}
-                    FOR TABLE {{ join ", " $v.risingwaveCdc.pgSource.tables }};
+                  CREATE PUBLICATION {{ .Values.pgSource.publicationName }}
+                    FOR TABLE {{ join ", " .Values.pgSource.tables }};
                 EXCEPTION
                   WHEN duplicate_object THEN
                     RAISE NOTICE 'Publication already exists, skipping.';
@@ -124,18 +112,18 @@ spec:
                 SELECT CASE
                   WHEN NOT EXISTS (
                     SELECT 1 FROM pg_replication_slots
-                    WHERE slot_name = '{{ $v.risingwaveCdc.pgSource.slotName }}'
+                    WHERE slot_name = '{{ .Values.pgSource.slotName }}'
                   )
                   THEN pg_create_logical_replication_slot(
-                    '{{ $v.risingwaveCdc.pgSource.slotName }}', 'pgoutput'
+                    '{{ .Values.pgSource.slotName }}', 'pgoutput'
                   )
                   ELSE NULL
                 END;
               "
 
               echo "CDC PG setup complete."
-              echo "  Publication : {{ $v.risingwaveCdc.pgSource.publicationName }}"
-              echo "  Slot        : {{ $v.risingwaveCdc.pgSource.slotName }}"
+              echo "  Publication : {{ .Values.pgSource.publicationName }}"
+              echo "  Slot        : {{ .Values.pgSource.slotName }}"
 
         # Step 2: Render ${ENV_VAR} placeholders in the SQL using envsubst.
         # Explicit variable list prevents envsubst from substituting $$ used in
@@ -144,35 +132,35 @@ spec:
           image: alpine:3.20
           env:
             - name: PG_HOST
-              value: {{ $v.risingwaveCdc.pgSource.host | quote }}
+              value: {{ .Values.pgSource.host | quote }}
             - name: PG_PORT
-              value: {{ $v.risingwaveCdc.pgSource.port | quote }}
+              value: {{ .Values.pgSource.port | quote }}
             - name: PG_DATABASE
-              value: {{ $v.risingwaveCdc.pgSource.database | quote }}
+              value: {{ .Values.pgSource.database | quote }}
             - name: PG_USER
               valueFrom:
                 secretKeyRef:
-                  name: {{ $v.risingwaveCdc.pgSource.credentialsSecret | quote }}
+                  name: {{ .Values.pgSource.credentialsSecret | quote }}
                   key: username
             - name: PG_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ $v.risingwaveCdc.pgSource.credentialsSecret | quote }}
+                  name: {{ .Values.pgSource.credentialsSecret | quote }}
                   key: password
             - name: AUTOMQ_BOOTSTRAP_SERVER
-              value: {{ $v.risingwaveCdc.automq.bootstrapServer | quote }}
+              value: {{ .Values.automq.bootstrapServer | quote }}
             - name: AUTOMQ_USERNAME
               valueFrom:
                 secretKeyRef:
-                  name: {{ $v.risingwaveCdc.automq.credentialsSecret | quote }}
+                  name: {{ .Values.automq.credentialsSecret | quote }}
                   key: username
             - name: AUTOMQ_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ $v.risingwaveCdc.automq.credentialsSecret | quote }}
+                  name: {{ .Values.automq.credentialsSecret | quote }}
                   key: password
             - name: APICURIO_URL
-              value: {{ $v.risingwaveCdc.apicurioUrl | quote }}
+              value: {{ .Values.apicurioUrl | quote }}
           command:
             - sh
             - -c
@@ -190,17 +178,17 @@ spec:
       containers:
         # Step 3: Wait for RisingWave and execute the rendered SQL.
         - name: risingwave-sql
-          # bitnami/postgresql provides psql client; RisingWave speaks the Postgres wire protocol.
-          image: bitnami/postgresql:16
+          # postgres image provides psql client; RisingWave speaks the Postgres wire protocol.
+          image: {{ .Values.pgClientImage }}
           env:
             - name: RW_HOST
-              value: {{ $v.risingwaveCdc.risingwave.host | quote }}
+              value: {{ .Values.risingwave.host | quote }}
             - name: RW_PORT
-              value: {{ $v.risingwaveCdc.risingwave.port | quote }}
+              value: {{ .Values.risingwave.port | quote }}
             - name: RW_USER
-              value: {{ $v.risingwaveCdc.risingwave.user | quote }}
+              value: {{ .Values.risingwave.user | quote }}
             - name: RW_DATABASE
-              value: {{ $v.risingwaveCdc.risingwave.database | quote }}
+              value: {{ .Values.risingwave.database | quote }}
             - name: PGPASSWORD
               value: ""  # RisingWave has no password in dev mode
           command:
@@ -221,7 +209,7 @@ spec:
 
               echo "RisingWave CDC setup complete."
           resources:
-            {{- toYaml $v.risingwaveCdc.resources | nindent 12 }}
+            {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: sql-rendered
               mountPath: /sql-rendered
@@ -229,8 +217,6 @@ spec:
       volumes:
         - name: sql-template
           configMap:
-            name: {{ include "mathtrail-service-lib.fullname" . }}-rw-cdc-sql
+            name: {{ include "risingwave-cdc-setup.fullname" . }}-rw-cdc-sql
         - name: sql-rendered
           emptyDir: {}
-{{- end }}
-{{- end -}}

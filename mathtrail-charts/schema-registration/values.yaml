@@ -1,0 +1,44 @@
+# =======================================================================
+# schema-registration :: values.yaml
+# =======================================================================
+
+# -- Apicurio Registry base URL (REQUIRED)
+# e.g. "http://apicurio-registry.streaming.svc.cluster.local:8080"
+apicurioUrl: ""
+
+# -- Helm hook weight (pre-install,pre-upgrade)
+hookWeight: "8"
+
+# -- Protobuf schemas to register.
+# Each entry requires:
+#   subject: "package.v1.MessageName"  — RecordNameStrategy subject name
+#   proto:   |                         — Self-contained .proto content (no imports)
+#     syntax = "proto3";
+#     package package.v1;
+#     message MessageName { ... }
+schemas: []
+# schemas:
+#   - subject: "students.v1.StudentOnboardingReady"
+#     # Source: contracts/proto/students/v1/events.proto
+#     proto: |
+#       syntax = "proto3";
+#       package students.v1;
+#       option go_package = "github.com/mathtrail/contracts/gen/go/students/v1;studentsv1";
+#       message StudentOnboardingReady {
+#         string event_id    = 1;
+#         string user_id     = 2;
+#       }
+
+# -- Job configuration
+backoffLimit: 3
+ttlSecondsAfterFinished: 300
+restartPolicy: OnFailure
+
+# -- Resource requests/limits for the register-schemas container
+resources:
+  requests:
+    cpu: "50m"
+    memory: "64Mi"
+  limits:
+    cpu: "200m"
+    memory: "128Mi"

@@ -1,0 +1,61 @@
+# =======================================================================
+# risingwave-cdc-setup :: values.yaml
+# =======================================================================
+
+# -- Source PostgreSQL configuration (all fields REQUIRED)
+pgSource:
+  host: ""              # REQUIRED — hostname of the source PostgreSQL instance
+  port: "5432"
+  database: ""          # REQUIRED — database name
+  credentialsSecret: "" # REQUIRED — K8s Secret name with 'username' and 'password' keys
+  slotName: ""          # REQUIRED — logical replication slot name (e.g. "risingwave_cdc")
+  publicationName: ""   # REQUIRED — PostgreSQL publication name (e.g. "risingwave_pub")
+  tables: []            # REQUIRED — tables included in the publication
+  # tables:
+  #   - "public.identities"
+
+# -- RisingWave frontend connection
+risingwave:
+  host: "risingwave-frontend.streaming.svc.cluster.local"
+  port: "4566"
+  user: "root"
+  database: "dev"
+
+# -- AutoMQ (Kafka-compatible) broker configuration
+automq:
+  bootstrapServer: ""   # REQUIRED — e.g. "automq.streaming.svc.cluster.local:9092"
+  credentialsSecret: "" # REQUIRED — K8s Secret name with 'username' and 'password' keys
+
+# -- Apicurio Registry URL for PROTOBUF schema resolution (REQUIRED)
+# e.g. "http://apicurio-registry.streaming.svc.cluster.local:8080/apis/ccompat/v7"
+apicurioUrl: ""
+
+# -- Full RisingWave SQL to execute (REQUIRED)
+# Supports ${ENV_VAR} substitution for: PG_HOST, PG_PORT, PG_DATABASE, PG_USER,
+# PG_PASSWORD, AUTOMQ_BOOTSTRAP_SERVER, AUTOMQ_USERNAME, AUTOMQ_PASSWORD, APICURIO_URL
+sql: ""
+# sql: |
+#   CREATE SOURCE IF NOT EXISTS my_pg_cdc WITH (
+#       connector = 'postgres-cdc',
+#       hostname  = '${PG_HOST}',
+#       ...
+#   );
+
+# -- PostgreSQL client image providing psql (override if a different registry is required)
+pgClientImage: "postgres:16-alpine"
+
+# -- Helm hook weight (post-install,post-upgrade)
+hookWeight: "10"
+
+# -- Job configuration
+backoffLimit: 10
+ttlSecondsAfterFinished: 1800
+
+# -- Resource requests/limits for the risingwave-sql container
+resources:
+  requests:
+    cpu: "50m"
+    memory: "64Mi"
+  limits:
+    cpu: "200m"
+    memory: "128Mi"
