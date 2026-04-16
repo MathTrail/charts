@@ -1,0 +1,15 @@
+apiVersion: v2
+name: schema-registration
+description: |
+  Standalone chart for registering Protobuf schemas into Apicurio Registry.
+  Each service deploys this chart as a separate Helm release with its own values.
+
+  Uses the Confluent compat v7 API — subject names match RisingWave
+  FORMAT PLAIN ENCODE PROTOBUF expectations (RecordNameStrategy).
+
+  Schemas must be self-contained (no import directives). If imports are needed,
+  extend this chart to use the Apicurio references API.
+
+type: application
+
+version: 0.1.0

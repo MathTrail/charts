@@ -1,0 +1,17 @@
+apiVersion: v2
+name: risingwave-cdc-setup
+description: |
+  Standalone chart for setting up a RisingWave CDC pipeline.
+  Each service deploys this chart as a separate Helm release with its own values.
+
+  Three-step Job:
+    1. initContainer: cdc-pg-setup  — creates PostgreSQL PUBLICATION + replication slot
+    2. initContainer: render-sql    — envsubst renders ${ENV_VAR} placeholders in SQL
+    3. main container: risingwave-sql — executes rendered SQL against RisingWave
+
+  Credentials (pgSource.credentialsSecret, automq.credentialsSecret) must be
+  provisioned in the target namespace before this chart is deployed.
+
+type: application
+
+version: 0.1.0

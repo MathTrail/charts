@@ -107,6 +107,12 @@ update:
     rm -f ./charts/k6-test-runner-*.tgz
     helm package ./mathtrail-charts/k6-test-runner --destination ./charts
 
+    rm -f ./charts/schema-registration-*.tgz
+    helm package ./mathtrail-charts/schema-registration --destination ./charts
+
+    rm -f ./charts/risingwave-cdc-setup-*.tgz
+    helm package ./mathtrail-charts/risingwave-cdc-setup --destination ./charts
+
     echo "📦 Generating Helm repo index..."
     helm repo index ./charts --url {{ repo_url }}/charts
 

@@ -1,45 +1,34 @@
 {{/*
 =======================================================================
-  mathtrail-service-lib :: _schema-registration-job.tpl
-  Schema Registration Job — registers Protobuf schemas consumed/produced
-  by this service into Apicurio Registry before the Deployment rolls.
+  schema-registration :: schema-registration-job.yaml
+  Registers Protobuf schemas into Apicurio Registry via Confluent compat v7 API.
 
-  Uses the Confluent compat v7 API so subject names match exactly what
-  RisingWave uses in FORMAT PLAIN ENCODE PROTOBUF.
+  Step 1 — initContainer: wait-apicurio
+    Polls Apicurio /apis/registry/v3/system/info until ready.
 
-  Subject naming: {package}.{MessageName} — e.g. students.v1.StudentOnboardingReady
-  This matches RecordNameStrategy and avoids the default-{artifactId} prefix.
+  Step 2 — main container: register-schemas
+    For each .proto file mounted from the ConfigMap, POSTs to
+    /apis/ccompat/v7/subjects/{subject}/versions.
+    HTTP 200 = registered, 409 = already exists — both treated as success.
 
-  Schemas must be self-contained (no import directives, string types throughout).
-  If a schema requires imports, this Job must be extended to submit references:
-    POST /apis/ccompat/v7/subjects/{subject}/versions with "references": [...]
-
-  Apicurio may run in ephemeral mode (schemas lost on restart).
-  Both ConfigMap and Job are pre-install/pre-upgrade hooks so the schema is
-  registered before the app starts consuming events.
-
-  Within the same hookWeight, Helm applies ConfigMap before Job (alphabetical
-  Kind ordering) — no separate weight offset is needed.
+  Idempotency:
+    HTTP 409 (schema already exists) is treated as success — safe on every upgrade.
+    If a schema definition changes, delete the subject in Apicurio first.
 =======================================================================
 */}}
-
-{{- define "mathtrail-service-lib.schemaRegistrationJob" -}}
-{{- $v := include "mathtrail-service-lib.mergedValues" . | fromYaml }}
-{{- if $v.schemaRegistration.enabled }}
----
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "mathtrail-service-lib.fullname" . }}-schema-protos
+  name: {{ include "schema-registration.fullname" . }}-schema-protos
   labels:
-    {{- include "mathtrail-service-lib.labels" . | nindent 4 }}
+    {{- include "schema-registration.labels" . | nindent 4 }}
     app.kubernetes.io/component: schema-registration
   annotations:
     "helm.sh/hook": pre-install,pre-upgrade
-    "helm.sh/hook-weight": {{ $v.schemaRegistration.hookWeight | quote }}
+    "helm.sh/hook-weight": {{ .Values.hookWeight | quote }}
     "helm.sh/hook-delete-policy": before-hook-creation
 data:
-{{- range $v.schemaRegistration.schemas }}
+{{- range .Values.schemas }}
   # Source: contracts/proto/{{ .subject | replace "." "/" }}.proto
   {{ .subject }}.proto: |
 {{ .proto | indent 4 -}}
@@ -48,24 +37,24 @@ data:
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "mathtrail-service-lib.fullname" . }}-schema-registration
+  name: {{ include "schema-registration.fullname" . }}-schema-registration
   labels:
-    {{- include "mathtrail-service-lib.labels" . | nindent 4 }}
+    {{- include "schema-registration.labels" . | nindent 4 }}
     app.kubernetes.io/component: schema-registration
   annotations:
     "helm.sh/hook": pre-install,pre-upgrade
-    "helm.sh/hook-weight": {{ $v.schemaRegistration.hookWeight | quote }}
+    "helm.sh/hook-weight": {{ .Values.hookWeight | quote }}
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:
-  backoffLimit: {{ $v.schemaRegistration.backoffLimit }}
-  ttlSecondsAfterFinished: {{ $v.schemaRegistration.ttlSecondsAfterFinished }}
+  backoffLimit: {{ .Values.backoffLimit }}
+  ttlSecondsAfterFinished: {{ .Values.ttlSecondsAfterFinished }}
   template:
     metadata:
       labels:
-        {{- include "mathtrail-service-lib.selectorLabels" . | nindent 8 }}
+        {{- include "schema-registration.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: schema-registration
     spec:
-      restartPolicy: {{ $v.schemaRegistration.restartPolicy }}
+      restartPolicy: {{ .Values.restartPolicy }}
       initContainers:
         # Wait for Apicurio to be ready before attempting registration.
         - name: wait-apicurio
@@ -88,7 +77,7 @@ spec:
               echo "Apicurio is ready."
           env:
             - name: APICURIO_URL
-              value: {{ $v.schemaRegistration.apicurioUrl | quote }}
+              value: {{ .Values.apicurioUrl | quote }}
           securityContext:
             allowPrivilegeEscalation: false
             runAsNonRoot: true
@@ -140,18 +129,16 @@ spec:
               echo "All schemas registered successfully."
           env:
             - name: APICURIO_URL
-              value: {{ $v.schemaRegistration.apicurioUrl | quote }}
+              value: {{ .Values.apicurioUrl | quote }}
           securityContext:
             allowPrivilegeEscalation: false
             runAsNonRoot: false
           resources:
-            {{- toYaml $v.schemaRegistration.resources | nindent 12 }}
+            {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: schemas
               mountPath: /schemas
       volumes:
         - name: schemas
           configMap:
-            name: {{ include "mathtrail-service-lib.fullname" . }}-schema-protos
-{{- end }}
-{{- end -}}
+            name: {{ include "schema-registration.fullname" . }}-schema-protos
