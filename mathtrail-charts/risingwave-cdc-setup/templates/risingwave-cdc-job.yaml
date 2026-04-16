@@ -40,7 +40,7 @@ metadata:
     app.kubernetes.io/component: risingwave-cdc
   annotations:
     "helm.sh/hook": post-install,post-upgrade
-    "helm.sh/hook-weight": {{ .Values.hookWeight | quote }}
+    "helm.sh/hook-weight": {{ .Values.hookWeight | int | add -1 | toString | quote }}
     "helm.sh/hook-delete-policy": before-hook-creation
 data:
   setup.sql: |
