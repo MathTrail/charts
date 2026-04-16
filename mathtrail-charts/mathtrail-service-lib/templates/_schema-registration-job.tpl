@@ -92,6 +92,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             runAsNonRoot: true
+            runAsUser: 100  # curlimages/curl uses non-numeric 'curl_user' (UID 100); numeric UID required for runAsNonRoot verification
       containers:
         - name: register-schemas
           # alpine: apk adds curl + jq at runtime.
