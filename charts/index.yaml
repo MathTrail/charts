@@ -38,9 +38,9 @@ entries:
           url: https://github.com/Apicurio/apicurio-registry-content-sync-operator
     apiVersion: v2
     appVersion: 0.0.0
-    created: "2026-04-30T00:42:55.450182966Z"
+    created: "2026-04-30T00:53:02.515245807Z"
     description: Install and configure Apicurio Registry in Kubernetes.
-    digest: b3a9788be12dd16f711af5f15c12c053a26e7e2925dee329eda7230562a4122c
+    digest: 22e871948b1876551c42c624841d6fdeb2727221b8567f39ac6eeb7cd5604e85
     home: https://github.com/eshepelyuk/apicurio-registry-helm
     icon: https://design.jboss.org/apicurio/logo/final/svg/apicurio_registry_icon_default.svg
     keywords:
@@ -72,7 +72,7 @@ entries:
         url: https://argoproj.github.io/argo-helm/pgp_keys.asc
     apiVersion: v2
     appVersion: v3.3.8
-    created: "2026-04-30T00:42:55.459114175Z"
+    created: "2026-04-30T00:53:02.529465401Z"
     dependencies:
     - condition: redis-ha.enabled
       name: redis-ha
@@ -101,7 +101,7 @@ entries:
   centrifugo:
   - apiVersion: v2
     appVersion: 6.7.1
-    created: "2026-04-30T00:42:55.459984408Z"
+    created: "2026-04-30T00:53:02.531153698Z"
     description: Centrifugo is a scalable real-time messaging server in language-agnostic
       way
     digest: 9d3581d0b9d4a97f4228ca735996367f35187537397a328d439d66fef3d391d4
@@ -134,7 +134,7 @@ entries:
         url: https://cert-manager.io/public-keys/cert-manager-keyring-2021-09-20-1020CF3C033D4F35BAE1C19E1226061C665DF13E.gpg
     apiVersion: v2
     appVersion: v1.20.2
-    created: "2026-04-30T00:42:55.464580553Z"
+    created: "2026-04-30T00:53:02.53719711Z"
     description: A Helm chart for cert-manager
     digest: d2a50bd44a09d838c2576a8f3dfca1524597c7393cf8d82ab3ec8a465b9eeb79
     home: https://cert-manager.io
@@ -164,7 +164,7 @@ entries:
       artifacthub.io/prerelease: "false"
     apiVersion: v2
     appVersion: 2.8.2
-    created: "2026-04-30T00:42:55.473405668Z"
+    created: "2026-04-30T00:53:02.547350936Z"
     description: Chaos Mesh is a cloud-native Chaos Engineering platform that orchestrates
       chaos on Kubernetes environments.
     digest: 52c7858f11d14450da524a48f460bbfc491e90d58a703f0b6f851f2f431b3db3
@@ -196,7 +196,7 @@ entries:
   external-secrets:
   - apiVersion: v2
     appVersion: v2.4.1
-    created: "2026-04-30T00:42:55.479725056Z"
+    created: "2026-04-30T00:53:02.554316611Z"
     dependencies:
     - condition: bitwarden-sdk-server.enabled
       name: bitwarden-sdk-server
@@ -221,10 +221,10 @@ entries:
   github-runner:
   - apiVersion: v2
     appVersion: latest
-    created: "2026-04-30T00:42:55.480171184Z"
+    created: "2026-04-30T00:53:02.554550651Z"
     description: GitHub Actions self-hosted runner for MathTrail CI/CD (BuildKit +
       Buildah)
-    digest: 3eca2e5cfafb6d3c0585b8c5934e095fe4433febf3292db7e73f33f29cc64bdf
+    digest: e816c0ae90929ab47a06c8c93afe6bbcf7196159ac36a48cf0531754f9b2ee47
     name: github-runner
     type: application
     urls:
@@ -240,7 +240,7 @@ entries:
           url: https://github.com/grafana/grafana
     apiVersion: v2
     appVersion: 12.3.1
-    created: "2026-04-30T00:42:55.483908258Z"
+    created: "2026-04-30T00:53:02.557104783Z"
     deprecated: true
     description: The leading tool for querying and visualizing time series and metrics.
     digest: c08c87969270402e7d5227edb8385af67cc32ee34817bff89773ad02303b5d79
@@ -276,7 +276,7 @@ entries:
   hydra:
   - apiVersion: v2
     appVersion: v26.2.0
-    created: "2026-04-30T00:42:55.486643987Z"
+    created: "2026-04-30T00:53:02.558862223Z"
     dependencies:
     - alias: ory
       name: ory-commons
@@ -314,7 +314,7 @@ entries:
   k6-operator:
   - apiVersion: v1
     appVersion: 1.4.0
-    created: "2026-04-30T00:42:55.488039229Z"
+    created: "2026-04-30T00:53:02.560052141Z"
     description: A Helm chart to install the k6-operator
     digest: b46331e5dd5ff6969c2ce36343c666220fd9cd7be246dd914f7868d1c90fab76
     home: https://k6.io
@@ -339,9 +339,9 @@ entries:
   k6-test-runner:
   - apiVersion: v2
     appVersion: 0.54.0
-    created: "2026-04-30T00:42:55.488195339Z"
+    created: "2026-04-30T00:53:02.560587911Z"
     description: Universal k6 load test runner for MathTrail services
-    digest: cfd8657478e944a1392fc495ee383d13d9d81ccdba8eda4dc437f497a33e2327
+    digest: 40abed6dccbed3d252cad58824ca7d822b7cc44703fa8bb79f8804a74d03b930
     name: k6-test-runner
     type: application
     urls:
@@ -350,7 +350,7 @@ entries:
   k8s-monitoring:
   - apiVersion: v2
     appVersion: 4.0.4
-    created: "2026-04-30T00:42:55.50677182Z"
+    created: "2026-04-30T00:53:02.580027554Z"
     dependencies:
     - alias: annotationAutodiscovery
       condition: annotationAutodiscovery.enabled
@@ -470,7 +470,7 @@ entries:
       tanzuCategory: service
     apiVersion: v2
     appVersion: 4.0.0
-    created: "2026-04-30T00:42:55.514628564Z"
+    created: "2026-04-30T00:53:02.586795449Z"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -500,7 +500,7 @@ entries:
   keto:
   - apiVersion: v2
     appVersion: v26.2.0
-    created: "2026-04-30T00:42:55.516716127Z"
+    created: "2026-04-30T00:53:02.588466142Z"
     dependencies:
     - alias: ory
       name: ory-commons
@@ -532,7 +532,7 @@ entries:
   kratos:
   - apiVersion: v2
     appVersion: v26.2.0
-    created: "2026-04-30T00:42:55.517884583Z"
+    created: "2026-04-30T00:53:02.59038387Z"
     dependencies:
     - alias: ory
       name: ory-commons
@@ -549,7 +549,7 @@ entries:
   loki:
   - apiVersion: v2
     appVersion: 3.6.7
-    created: "2026-04-30T00:42:55.531221742Z"
+    created: "2026-04-30T00:53:02.602986345Z"
     dependencies:
     - alias: minio
       condition: minio.enabled
@@ -585,10 +585,10 @@ entries:
     version: 7.0.0
   mathtrail-service-lib:
   - apiVersion: v2
-    created: "2026-04-30T00:42:55.532699352Z"
+    created: "2026-04-30T00:53:02.603718452Z"
     description: 'Library Helm Chart for MathTrail microservices. Provides reusable
       templates. '
-    digest: e7547f5cbeca01dc7ad695a900d9afe24199347c05717619f30922f2ed7953f4
+    digest: 4cfef37514e9b60e4ad97af29631098b8b250f81225b9f140362544785d0fd34
     name: mathtrail-service-lib
     type: library
     urls:
@@ -597,7 +597,7 @@ entries:
   mimir-distributed:
   - apiVersion: v2
     appVersion: 3.0.4
-    created: "2026-04-30T00:42:55.545011431Z"
+    created: "2026-04-30T00:53:02.619486826Z"
     dependencies:
     - alias: minio
       condition: minio.enabled
@@ -639,7 +639,7 @@ entries:
       tanzuCategory: service
     apiVersion: v2
     appVersion: 2025.7.23
-    created: "2026-04-30T00:42:55.54738829Z"
+    created: "2026-04-30T00:53:02.622835816Z"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -670,7 +670,7 @@ entries:
   oathkeeper:
   - apiVersion: v2
     appVersion: v26.2.0
-    created: "2026-04-30T00:42:55.549257995Z"
+    created: "2026-04-30T00:53:02.62417475Z"
     dependencies:
     - alias: oathkeeper-maester
       condition: maester.enabled
@@ -705,7 +705,7 @@ entries:
   opentelemetry-collector:
   - apiVersion: v2
     appVersion: 0.150.1
-    created: "2026-04-30T00:42:55.551871599Z"
+    created: "2026-04-30T00:53:02.625668112Z"
     description: OpenTelemetry Collector Helm chart for Kubernetes
     digest: d6ae3c5fbaedaa19c840d900d56d262fd61844696de8b362331e336abe13ac8e
     home: https://opentelemetry.io/
@@ -739,7 +739,7 @@ entries:
       tanzuCategory: service
     apiVersion: v2
     appVersion: 18.3.0
-    created: "2026-04-30T00:42:55.558437361Z"
+    created: "2026-04-30T00:53:02.630438857Z"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -771,7 +771,7 @@ entries:
   pyroscope:
   - apiVersion: v2
     appVersion: 2.0.1
-    created: "2026-04-30T00:42:55.563270031Z"
+    created: "2026-04-30T00:53:02.636320036Z"
     dependencies:
     - alias: agent
       condition: agent.enabled
@@ -823,7 +823,7 @@ entries:
       tanzuCategory: service
     apiVersion: v2
     appVersion: 8.6.2
-    created: "2026-04-30T00:42:55.569982064Z"
+    created: "2026-04-30T00:53:02.640838996Z"
     dependencies:
     - name: common
       repository: oci://registry-1.docker.io/bitnamicharts
@@ -852,7 +852,7 @@ entries:
   risingwave:
   - apiVersion: v2
     appVersion: v2.8.2
-    created: "2026-04-30T00:42:55.583527163Z"
+    created: "2026-04-30T00:53:02.652444113Z"
     dependencies:
     - name: common
       repository: https://charts.bitnami.com/bitnami
@@ -889,7 +889,7 @@ entries:
     version: 0.2.50
   risingwave-cdc-setup:
   - apiVersion: v2
-    created: "2026-04-16T14:21:27.013538762Z"
+    created: "2026-04-30T00:53:02.652802703Z"
     description: 'Standalone chart for setting up a RisingWave CDC pipeline. Each
       service deploys this chart as a separate Helm release with its own values.  Three-step
       Job:   1. initContainer: cdc-pg-setup  — creates PostgreSQL PUBLICATION + replication
@@ -897,62 +897,33 @@ entries:
       in SQL   3. main container: risingwave-sql — executes rendered SQL against RisingWave  Credentials
       (pgSource.credentialsSecret, automq.credentialsSecret) must be provisioned in
       the target namespace before this chart is deployed. '
-    digest: 77de119b0b247723fdd740e37d6097f99e6c7235c9e4705b13823213a5bf5277
+    digest: 7654e8f80cec94d0a00601eb35ae91eb741ca448ab0d74a73941d902a4a15082
     name: risingwave-cdc-setup
     type: application
     urls:
     - https://MathTrail.github.io/charts/charts/risingwave-cdc-setup-0.1.1.tgz
     version: 0.1.1
-  - apiVersion: v2
-    created: "2026-04-30T00:42:55.583934015Z"
-    description: 'Standalone chart for setting up a RisingWave CDC pipeline. Each
-      service deploys this chart as a separate Helm release with its own values.  Three-step
-      Job:   1. initContainer: cdc-pg-setup  — creates PostgreSQL PUBLICATION + replication
-      slot   2. initContainer: render-sql    — envsubst renders ${ENV_VAR} placeholders
-      in SQL   3. main container: risingwave-sql — executes rendered SQL against RisingWave  Credentials
-      (pgSource.credentialsSecret, automq.credentialsSecret) must be provisioned in
-      the target namespace before this chart is deployed. '
-    digest: 4086a0a26e424e52486e1ccc9a204ba99d3d97f023750fd243aac079137d3622
-    name: risingwave-cdc-setup
-    type: application
-    urls:
-    - https://MathTrail.github.io/charts/charts/risingwave-cdc-setup-0.1.0.tgz
-    version: 0.1.0
   schema-registration:
   - apiVersion: v2
-    created: "2026-04-16T14:21:27.013756251Z"
+    created: "2026-04-30T00:53:02.653072251Z"
     description: 'Standalone chart for registering Protobuf schemas into Apicurio
       Registry. Each service deploys this chart as a separate Helm release with its
       own values.  Uses the Confluent compat v7 API — subject names match RisingWave
       FORMAT PLAIN ENCODE PROTOBUF expectations (RecordNameStrategy).  Schemas must
       be self-contained (no import directives). If imports are needed, extend this
       chart to use the Apicurio references API. '
-    digest: 345486ea87e0b76d47bc151034689f5040365be7df07ff1003ed7d08c007561a
+    digest: 9126a67419f95e5c476654861554fe52494f0dc966b435f38f31cf10907314fe
     name: schema-registration
     type: application
     urls:
     - https://MathTrail.github.io/charts/charts/schema-registration-0.1.1.tgz
     version: 0.1.1
-  - apiVersion: v2
-    created: "2026-04-30T00:42:55.584192642Z"
-    description: 'Standalone chart for registering Protobuf schemas into Apicurio
-      Registry. Each service deploys this chart as a separate Helm release with its
-      own values.  Uses the Confluent compat v7 API — subject names match RisingWave
-      FORMAT PLAIN ENCODE PROTOBUF expectations (RecordNameStrategy).  Schemas must
-      be self-contained (no import directives). If imports are needed, extend this
-      chart to use the Apicurio references API. '
-    digest: 8f74b6d47545e1baf19c0acf3dfba0c8c4272296db8ed11afbeffac0045765d0
-    name: schema-registration
-    type: application
-    urls:
-    - https://MathTrail.github.io/charts/charts/schema-registration-0.1.0.tgz
-    version: 0.1.0
   telepresence-oss:
   - annotations:
       artifacthub.io/license: Apache-2.0
     apiVersion: v2
     appVersion: 2.27.4
-    created: "2026-04-30T00:42:55.594457685Z"
+    created: "2026-04-30T00:53:02.661165264Z"
     description: A chart for deploying the server-side components of Telepresence
     digest: 3190cdaf88e1da28febe35d2360c1b023595470294044ab104bc52e8e32b90e9
     icon: https://raw.githubusercontent.com/telepresenceio/telepresence.io/master/src/assets/images/telepresence-edgy.svg
@@ -970,7 +941,7 @@ entries:
   tempo:
   - apiVersion: v2
     appVersion: 2.9.0
-    created: "2026-04-30T00:42:55.596857809Z"
+    created: "2026-04-30T00:53:02.662326267Z"
     deprecated: true
     description: Grafana Tempo Single Binary Mode
     digest: f1f6e318d5bca3b5097cb676077796cdf8135beb2c1f71c4d14614ccf9b0081b
@@ -1001,7 +972,7 @@ entries:
         \U0001F680 publish v39.0.8\"\n"
     apiVersion: v2
     appVersion: v3.6.13
-    created: "2026-04-30T00:42:55.611055943Z"
+    created: "2026-04-30T00:53:02.674395266Z"
     description: A Traefik based Kubernetes ingress controller
     digest: 336e1500519d8727f440915ba81da99ee322fae77a19671fe66130fc1e8b7000
     home: https://traefik.io/
@@ -1030,7 +1001,7 @@ entries:
       charts.openshift.io/name: HashiCorp Vault
     apiVersion: v2
     appVersion: 1.21.2
-    created: "2026-04-30T00:42:55.614561733Z"
+    created: "2026-04-30T00:53:02.677622302Z"
     description: Official HashiCorp Vault Chart
     digest: e31ddf3f6dd031c0f5407dd6b63361ea5ff655f89c781049b39f4c2a95a6f88a
     home: https://www.vaultproject.io
@@ -1056,7 +1027,7 @@ entries:
   vault-config-operator:
   - apiVersion: v1
     appVersion: v0.8.48
-    created: "2026-04-30T00:42:55.618154369Z"
+    created: "2026-04-30T00:53:02.680759966Z"
     description: Helm chart that deploys vault-config-operator
     digest: 973cb17c992ec948178bc2865e50815df5c65f75b0d4726bd9c7a687d7c24632
     keywords:
@@ -1074,7 +1045,7 @@ entries:
   vault-secrets-operator:
   - apiVersion: v2
     appVersion: 1.3.0
-    created: "2026-04-30T00:42:55.621061819Z"
+    created: "2026-04-30T00:53:02.683470889Z"
     description: Official Vault Secrets Operator Chart
     digest: 6841861f9299fa968389ce4e48d579f628f3f8c0247c087ae3426f66efa45cc5
     kubeVersion: '>=1.21.0-0'
@@ -1085,4 +1056,4 @@ entries:
     urls:
     - https://MathTrail.github.io/charts/charts/vault-secrets-operator-1.3.0.tgz
     version: 1.3.0
-generated: "2026-04-30T00:42:55.449562463Z"
+generated: "2026-04-30T00:53:02.514366345Z"
