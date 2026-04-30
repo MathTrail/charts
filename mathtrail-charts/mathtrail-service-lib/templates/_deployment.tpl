@@ -69,7 +69,13 @@ spec:
           command:
             - "/bin/sh"
             - "-c"
-            - "kubectl wait --for=condition=complete job/{{ include "mathtrail-service-lib.fullname" . }}-migrate --timeout={{ $v.migration.waitTimeout }}"
+            - |
+              JOB={{ include "mathtrail-service-lib.fullname" . }}-migrate
+              if ! kubectl get job "$JOB" 2>/dev/null; then
+                echo "Migration job $JOB not found — assuming already completed. Proceeding."
+                exit 0
+              fi
+              kubectl wait --for=condition=complete "job/$JOB" --timeout={{ $v.migration.waitTimeout }}
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
