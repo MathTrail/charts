@@ -889,6 +889,21 @@ entries:
     version: 0.2.50
   risingwave-cdc-setup:
   - apiVersion: v2
+    created: "2026-04-16T14:21:27.013538762Z"
+    description: 'Standalone chart for setting up a RisingWave CDC pipeline. Each
+      service deploys this chart as a separate Helm release with its own values.  Three-step
+      Job:   1. initContainer: cdc-pg-setup  — creates PostgreSQL PUBLICATION + replication
+      slot   2. initContainer: render-sql    — envsubst renders ${ENV_VAR} placeholders
+      in SQL   3. main container: risingwave-sql — executes rendered SQL against RisingWave  Credentials
+      (pgSource.credentialsSecret, automq.credentialsSecret) must be provisioned in
+      the target namespace before this chart is deployed. '
+    digest: 77de119b0b247723fdd740e37d6097f99e6c7235c9e4705b13823213a5bf5277
+    name: risingwave-cdc-setup
+    type: application
+    urls:
+    - https://MathTrail.github.io/charts/charts/risingwave-cdc-setup-0.1.1.tgz
+    version: 0.1.1
+  - apiVersion: v2
     created: "2026-04-30T00:42:55.583934015Z"
     description: 'Standalone chart for setting up a RisingWave CDC pipeline. Each
       service deploys this chart as a separate Helm release with its own values.  Three-step
@@ -904,6 +919,20 @@ entries:
     - https://MathTrail.github.io/charts/charts/risingwave-cdc-setup-0.1.0.tgz
     version: 0.1.0
   schema-registration:
+  - apiVersion: v2
+    created: "2026-04-16T14:21:27.013756251Z"
+    description: 'Standalone chart for registering Protobuf schemas into Apicurio
+      Registry. Each service deploys this chart as a separate Helm release with its
+      own values.  Uses the Confluent compat v7 API — subject names match RisingWave
+      FORMAT PLAIN ENCODE PROTOBUF expectations (RecordNameStrategy).  Schemas must
+      be self-contained (no import directives). If imports are needed, extend this
+      chart to use the Apicurio references API. '
+    digest: 345486ea87e0b76d47bc151034689f5040365be7df07ff1003ed7d08c007561a
+    name: schema-registration
+    type: application
+    urls:
+    - https://MathTrail.github.io/charts/charts/schema-registration-0.1.1.tgz
+    version: 0.1.1
   - apiVersion: v2
     created: "2026-04-30T00:42:55.584192642Z"
     description: 'Standalone chart for registering Protobuf schemas into Apicurio
